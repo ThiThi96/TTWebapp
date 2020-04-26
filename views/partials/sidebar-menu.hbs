@@ -1,0 +1,62 @@
+              <!--
+              *** MENUS AND FILTERS ***
+              _________________________________________________________
+              -->
+              <div class="card sidebar-menu mb-4">
+                <div class="card-header">
+                <h3 class="h4 card-title">Categories</h3>
+                </div>
+                <div class="card-body">
+                  <ul class="nav nav-pills flex-column category-menu">
+                    {{#each categories}}
+                       <li><a href="category.html" class="nav-link">{{this.name}} <span class="badge badge-secondary">{{this.number}}</span></a>
+                        <ul class="list-unstyled">
+                          {{#each this.subCategories}}
+                            <li><a href="category.html" class="nav-link">{{this.name}}</a></li>
+                          {{/each}}
+                        </ul>
+                      </li>                   
+                    {{/each}}
+                  </ul>
+                </div>
+              </div>
+              <div class="card sidebar-menu mb-4">
+                <div class="card-header">
+                  <h3 class="h4 card-title">Brands <a href="#" class="btn btn-sm btn-danger pull-right"><i class="fa fa-times-circle"></i> Clear</a></h3>
+                </div>
+                <div class="card-body">
+                  <form>
+                    <div class="form-group">
+                      {{#each brands}}
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox"> {{this.name}}  ({{this.number}})
+                          </label>
+                        </div>
+                      {{/each}}
+                    </div>
+                    <button class="btn btn-default btn-sm btn-primary"><i class="fa fa-pencil"></i> Apply</button>
+                  </form>
+                </div>
+              </div>
+              <div class="card sidebar-menu mb-4">
+                <div class="card-header">
+                  <h3 class="h4 card-title">Colours <a href="#" class="btn btn-sm btn-danger pull-right"><i class="fa fa-times-circle"></i> Clear</a></h3>
+                </div>
+                <div class="card-body">
+                  <form>
+                    <div class="form-group">
+                      {{#each colours}}
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox"><span class="colour white"></span> {{this.name}} ({{this.number}})
+                          </label>
+                        </div>
+                      {{/each}}
+                    </div>
+                    <button class="btn btn-default btn-sm btn-primary"><i class="fa fa-pencil"></i> Apply</button>
+                  </form>
+                </div>
+              </div>
+              <!-- *** MENUS AND FILTERS END ***-->
+              <div class="banner"><a href="#"><img src="/img/banner.jpg" alt="sales 2014" class="img-fluid"></a></div>
