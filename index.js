@@ -6,9 +6,15 @@ let products = require('./Models/Product');
 let categories = require('./Models/Category');
 let brands = require('./Models/Brand');
 let colours = require('./Models/Colour');
+let orders = require('./Models/Order');
 
-
-app.engine('hbs', exphbs({ extname: '.hbs'}));
+let hbs = exphbs.create({
+	extname: '.hbs',
+	helpers: {
+		compare: compareHelper
+	}
+});
+app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 
 app.use(express.static('public'));
@@ -43,10 +49,44 @@ app.post('/user', (req, res) => res.render('index'));
 app.post('/user/logIn', (req, res) => res.render('index'));
 app.post('/user/logOut', (req, res) => res.render('index'));
 
-app.get('/user/:userId/order', (req, res) => res.render('customer-order'));
+app.get('/user/:userId/order', (req, res) => { 
+	res.render('customer-order', {
+		orders: orders.orders,
+		statusEnums: orders.statusEnums
+	});
+});
 app.post('/user/:userId/order', (req, res) => res.render('customer-order-detail'));
 app.get('/order/:orderId', (req, res) => res.render('customer-order-detail'));
 
 
+function compareHelper(lvalue, rvalue, options) {
 
+		if (arguments.length < 3)
+			throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
+
+		operator = options.hash.operator || "==";
+		
+		var operators = {
+			'==':		function(l,r) { return l == r; },
+			'===':	function(l,r) { return l === r; },
+			'!=':		function(l,r) { return l != r; },
+			'<':		function(l,r) { return l < r; },
+			'>':		function(l,r) { return l > r; },
+			'<=':		function(l,r) { return l <= r; },
+			'>=':		function(l,r) { return l >= r; },
+			'typeof':	function(l,r) { return typeof l == r; }
+		}
+
+		if (!operators[operator])
+			throw new Error("Handlerbars Helper 'compare' doesn't know the operator "+operator);
+
+		var result = operators[operator](lvalue,rvalue);
+
+		if( result ) {
+			return options.fn(this);
+		} else {
+			return options.inverse(this);
+		}
+		
+	};
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

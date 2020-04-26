@@ -45,41 +45,28 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <th># 1735</th>
-                        <td>22/06/2013</td>
-                        <td>$ 150.00</td>
-                        <td><span class="badge badge-info">Being prepared</span></td>
-                        <td><a href="customer-order.html" class="btn btn-primary btn-sm">View</a></td>
-                      </tr>
-                      <tr>
-                        <th># 1735</th>
-                        <td>22/06/2013</td>
-                        <td>$ 150.00</td>
-                        <td><span class="badge badge-info">Being prepared</span></td>
-                        <td><a href="customer-order.html" class="btn btn-primary btn-sm">View</a></td>
-                      </tr>
-                      <tr>
-                        <th># 1735</th>
-                        <td>22/06/2013</td>
-                        <td>$ 150.00</td>
-                        <td><span class="badge badge-success">Received</span></td>
-                        <td><a href="customer-order.html" class="btn btn-primary btn-sm">View</a></td>
-                      </tr>
-                      <tr>
-                        <th># 1735</th>
-                        <td>22/06/2013</td>
-                        <td>$ 150.00</td>
-                        <td><span class="badge badge-danger">Cancelled</span></td>
-                        <td><a href="customer-order.html" class="btn btn-primary btn-sm">View</a></td>
-                      </tr>
-                      <tr>
-                        <th># 1735</th>
-                        <td>22/06/2013</td>
-                        <td>$ 150.00</td>
-                        <td><span class="badge badge-warning">On hold</span></td>
-                        <td><a href="customer-order.html" class="btn btn-primary btn-sm">View</a></td>
-                      </tr>
+                      {{#each orders}}
+                         <tr>
+                          <th># {{this.id}}</th>
+                          <td>{{this.date}}</td>
+                          <td>{{this.price}}</td>
+                          <td>
+                              {{#compare this.status.Value ../statusEnums.BeingPrepared.Value}}
+                                <span class="badge badge-info">Being prepared</span>
+                              {{/compare}}
+                              {{#compare this.status.Value ../statusEnums.Cancelled.Value}}
+                                <span class="badge badge-danger">Cancelled</span>
+                              {{/compare}}
+                              {{#compare this.status.Value ../statusEnums.Received.Value}}
+                                <span class="badge badge-success">Received</span>
+                              {{/compare}}
+                              {{#compare this.status.Value ../statusEnums.OnHold.Value}}
+                                <span class="badge badge-warning">On hold</span>
+                              {{/compare}}
+                          </td>
+                          <td><a href="/order/{{this.id}}" class="btn btn-primary btn-sm">View</a></td>
+                        </tr>                       
+                      {{/each}}
                     </tbody>
                   </table>
                 </div>
