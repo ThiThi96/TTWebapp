@@ -56,7 +56,20 @@ app.get('/user/:userId/order', (req, res) => {
 	});
 });
 app.post('/user/:userId/order', (req, res) => res.render('customer-order-detail'));
-app.get('/order/:orderId', (req, res) => res.render('customer-order-detail'));
+app.get('/user/:userId/basket', (req, res) => {
+	res.render('basket', {
+		order: orders.orders[0],
+		recommendedProducts: products.slice(0, 3)
+	});
+});
+app.get('/order/:orderId', (req, res) => {
+	res.render('customer-order-detail', 
+		orders.orders[0]
+	);
+});
+app.post('/order/:orderId/remove/:productId', (req, res) => {
+	res.send('success');
+});
 
 
 function compareHelper(lvalue, rvalue, options) {

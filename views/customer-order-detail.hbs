@@ -8,7 +8,7 @@
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
                   <li aria-current="page" class="breadcrumb-item"><a href="#">My orders</a></li>
-                  <li aria-current="page" class="breadcrumb-item active">Order # 1735</li>
+                  <li aria-current="page" class="breadcrumb-item active">Order # {{id}}</li>
                 </ol>
               </nav>
             </div>
@@ -31,7 +31,7 @@
             <div id="customer-order" class="col-lg-9">
               <div class="box">
                 <h1>Order #1735</h1>
-                <p class="lead">Order #1735 was placed on <strong>22/06/2013</strong> and is currently <strong>Being prepared</strong>.</p>
+                <p class="lead">Order #{{id}} was placed on <strong>{{date}}</strong> and is currently <strong>{{status.Description}}</strong>.</p>
                 <p class="text-muted">If you have any questions, please feel free to <a href="contact.html">contact us</a>, our customer service center is working for you 24/7.</p>
                 <hr>
                 <div class="table-responsive mb-4">
@@ -46,39 +46,33 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td><a href="#"><img src="img/detailsquare.jpg" alt="White Blouse Armani"></a></td>
-                        <td><a href="#">White Blouse Armani</a></td>
-                        <td>2</td>
-                        <td>$123.00</td>
-                        <td>$0.00</td>
-                        <td>$246.00</td>
-                      </tr>
-                      <tr>
-                        <td><a href="#"><img src="img/basketsquare.jpg" alt="Black Blouse Armani"></a></td>
-                        <td><a href="#">Black Blouse Armani</a></td>
-                        <td>1</td>
-                        <td>$200.00</td>
-                        <td>$0.00</td>
-                        <td>$200.00</td>
-                      </tr>
+                      {{#each products}}
+                        <tr>
+                          <td><a href="/product/{{this.id}}"><img src="{{this.image}}" alt="{{this.name}}"></a></td>
+                          <td><a href="/product/{{this.id}}">{{this.name}}</a></td>
+                          <td>{{this.id}}</td>
+                          <td>{{this.price}}</td>
+                          <td>{{this.discount}}</td>
+                          <td>{{this.total}}</td>
+                        </tr>
+                      {{/each}}
                     </tbody>
                     <tfoot>
                       <tr>
                         <th colspan="5" class="text-right">Order subtotal</th>
-                        <th>$446.00</th>
+                        <th>{{subTotal}}</th>
                       </tr>
                       <tr>
                         <th colspan="5" class="text-right">Shipping and handling</th>
-                        <th>$10.00</th>
+                        <th>{{this.shippingCost}}</th>
                       </tr>
                       <tr>
                         <th colspan="5" class="text-right">Tax</th>
-                        <th>$0.00</th>
+                        <th>{{this.tax}}</th>
                       </tr>
                       <tr>
                         <th colspan="5" class="text-right">Total</th>
-                        <th>$456.00</th>
+                        <th>{{this.total}}</th>
                       </tr>
                     </tfoot>
                   </table>
