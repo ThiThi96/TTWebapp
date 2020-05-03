@@ -2,11 +2,7 @@ let express = require('express');
 let app = express();
 let port = 3000;
 let exphbs  = require('express-handlebars');
-let products = require('./Models/Product');
-let categories = require('./Models/Category');
-let brands = require('./Models/Brand');
-let colours = require('./Models/Colour');
-let orders = require('./Models/Order');
+let controllers = require('./Controllers/Controllers');
 
 let hbs = exphbs.create({
 	extname: '.hbs',
@@ -24,24 +20,8 @@ app.get('/', (req, res) => res.render('index'));
 
 
 
-app.get('/product', (req, res) => {
-	res.render('product.hbs', {
-		products: products,
-		categories: categories,
-		brands: brands,
-		colours: colours
-	});
-});
-app.get('/product/:productId', (req, res) => { 
-	res.render('product-detail.hbs', {
-		categories: categories,
-		brands: brands,
-		colours: colours,
-		product: products[0],
-		recommendedProducts: products.slice(0, 3),
-		viewedProducts: products.slice(0, 3)
-	});
-});
+app.get('/product', (req, res) => controllers.Product.GetProducts(req, res));
+app.get('/product/:productId', (req, res) => controllers.Product.GetProductById(req, res));
 //app.get('/product/search/:keyword.:brand.:color', (req, res) => res.render('index'));
 
 app.get('/user/:userId', (req, res) => res.render('customer'));
@@ -49,27 +29,11 @@ app.post('/user', (req, res) => res.render('index'));
 app.post('/user/logIn', (req, res) => res.render('index'));
 app.post('/user/logOut', (req, res) => res.render('index'));
 
-app.get('/user/:userId/order', (req, res) => { 
-	res.render('customer-order', {
-		orders: orders.orders,
-		statusEnums: orders.statusEnums
-	});
-});
-app.post('/user/:userId/order', (req, res) => res.render('customer-order-detail'));
-app.get('/user/:userId/basket', (req, res) => {
-	res.render('basket', {
-		order: orders.orders[0],
-		recommendedProducts: products.slice(0, 3)
-	});
-});
-app.get('/order/:orderId', (req, res) => {
-	res.render('customer-order-detail', 
-		orders.orders[0]
-	);
-});
-app.post('/order/:orderId/remove/:productId', (req, res) => {
-	res.send('success');
-});
+app.get('/user/:userId/order', (req, res) => controllers.Order.GetOrderByUserId(req, res));
+app.post('/user/:userId/order', (req, res) => controllers.Order.AddOrder(req, res));
+app.get('/user/:userId/basket', (req, res) => controllers.Order.GetBasketByUserId(req, res));
+app.get('/order/:orderId', (req, res) => controllers.Order.GetOrderById(req, res));
+app.post('/order/:orderId/remove/:productId', (req, res) => controllers.Order.RemoveProductFromOrder(req, res));
 
 
 function compareHelper(lvalue, rvalue, options) {
