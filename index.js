@@ -3,6 +3,8 @@ let app = express();
 let port = 3000;
 let exphbs  = require('express-handlebars');
 let controllers = require('./Controllers/Controllers');
+let db = require("./DAL/Models");
+
 
 let hbs = exphbs.create({
 	extname: '.hbs',

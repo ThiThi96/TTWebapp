@@ -20,5 +20,15 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.Users = require("./User.js")(sequelize, Sequelize);
+db.Orders = require("./Order.js")(sequelize, Sequelize);
+db.OrderDetails = require("./OrderDetail.js")(sequelize, Sequelize);
+db.Products = require("./Product.js")(sequelize, Sequelize);
+db.Brands = require("./Brand.js")(sequelize, Sequelize);
+db.Categories = require("./Category.js")(sequelize, Sequelize);
+
+db.Products.belongsTo(db.Brands, { foreignKey: 'BrandId', as: 'brand' });
+db.Products.belongsTo(db.Categories, { foreignKey: 'CategoryId', as: 'category' });
+db.Brands.hasMany(db.Products, { foreignKey: 'BrandId', as: 'products' });
+db.Categories.hasMany(db.Products, { foreignKey: 'CategoryId', as: 'products' });
 
 module.exports = db;

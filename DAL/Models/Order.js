@@ -1,95 +1,76 @@
 module.exports = (sequelize, Sequelize) => {
   let attributes = {
-    UserId: {
+    OrderId: {
       type: Sequelize.INTEGER,
       allowNull: false,
       defaultValue: null,
       primaryKey: true,
-      autoIncrement: true,
-      comment: null,
-      field: "UserId",
-      unique: "UserId_UNIQUE"
-    },
-    FirstName: {
-      type: Sequelize.STRING(45),
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "FirstName"
+      field: "OrderId"
     },
-    Email: {
-      type: Sequelize.STRING(100),
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "Email"
-    },
-    Password: {
-      type: Sequelize.STRING(45),
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "Password"
-    },
-    PhoneNumber: {
-      type: Sequelize.STRING(45),
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "PhoneNumber"
-    },
-    LastName: {
-      type: Sequelize.STRING(45),
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "LastName"
-    },
-    Birthdate: {
+    CreatedDate: {
       type: Sequelize.DATEONLY,
       allowNull: true,
       defaultValue: null,
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "Birthdate"
+      field: "CreatedDate"
     },
-    IsFemale: {
+    UpdatedDate: {
+      type: Sequelize.DATEONLY,
+      allowNull: true,
+      defaultValue: null,
+      primaryKey: false,
+      autoIncrement: false,
+      comment: null,
+      field: "UpdatedDate"
+    },
+    UserId: {
       type: Sequelize.INTEGER,
       allowNull: true,
       defaultValue: null,
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "IsFemale"
+      field: "UserId"
     },
-    Address: {
-      type: Sequelize.STRING(1000),
+    StatusId: {
+      type: Sequelize.INTEGER,
       allowNull: true,
       defaultValue: null,
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "Address"
+      field: "StatusId"
+    },
+    SubTotal: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      defaultValue: null,
+      primaryKey: false,
+      autoIncrement: false,
+      comment: null,
+      field: "SubTotal"
+    },
+    Tax: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      defaultValue: null,
+      primaryKey: false,
+      autoIncrement: false,
+      comment: null,
+      field: "Tax"
     }
   };
   let options = {
-    tableName: "user",
+    tableName: "order",
     comment: "",
     indexes: [],
     freezeTableName: true,
     timestamps: false
   };
-  let UserModel = sequelize.define("user", attributes, options);
-  return UserModel;
+  let OrderModel = sequelize.define("order", attributes, options);
+  return OrderModel;
 };

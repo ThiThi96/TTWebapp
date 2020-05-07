@@ -1,16 +1,14 @@
 let models = require('../ViewModels/ViewModels');
-let db = require('../DAL/Models');
-let Users = db.Users;
+let productBusiness = require('../BLL').ProductBusiness;
 
 let productController = {
 	GetProducts: function(req, res){
-		Users.findAll({ where: true })
-		    .then(data => {
-		      console.log(data);
-		    })
-		    .catch(err => {
-		      console.log(err);
-		    });
+		productBusiness.GetProductsByCategoryId(9, 0, 2)
+						.then(data => {
+							console.log(data);
+						}).catch(err => {
+							console.log(err);
+						});
 		res.render('product.hbs', {
 			products: models.Product,
 			categories: models.Category,

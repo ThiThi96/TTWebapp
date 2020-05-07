@@ -1,1 +1,5 @@
-/* your styles go here */
+.img-display {
+	width: 253px !important;
+	height: 338px !important;
+	object-fit: cover;
+}
