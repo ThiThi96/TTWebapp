@@ -26,9 +26,13 @@ db.Products = require("./Product.js")(sequelize, Sequelize);
 db.Brands = require("./Brand.js")(sequelize, Sequelize);
 db.Categories = require("./Category.js")(sequelize, Sequelize);
 
-db.Products.belongsTo(db.Brands, { foreignKey: 'BrandId', as: 'brand' });
-db.Products.belongsTo(db.Categories, { foreignKey: 'CategoryId', as: 'category' });
-db.Brands.hasMany(db.Products, { foreignKey: 'BrandId', as: 'products' });
-db.Categories.hasMany(db.Products, { foreignKey: 'CategoryId', as: 'products' });
+// db.Products.belongsTo(db.Brands, { foreignKey: 'BrandId', as: 'brand' });
+// db.Products.belongsTo(db.Categories, { foreignKey: 'CategoryId', as: 'category' });
+//db.Brands.hasMany(db.Products, { foreignKey: 'BrandId', as: 'products' });
+//db.Categories.hasMany(db.Products, { foreignKey: 'CategoryId', as: 'products' });
+
+db.Products.associate(db);
+db.Brands.associate(db);
+db.Categories.associate(db);
 
 module.exports = db;

@@ -35,6 +35,9 @@ module.exports = (sequelize, Sequelize) => {
     freezeTableName: true,
     timestamps: false
   };
-  let CategoryModel = sequelize.define("category", attributes, options);
-  return CategoryModel;
+  let categoryModel = sequelize.define("category", attributes, options);
+  categoryModel.associate = function(models) {
+    categoryModel.hasMany(models.Products, { foreignKey: 'CategoryId', as: 'products' });
+  };
+  return categoryModel;
 };

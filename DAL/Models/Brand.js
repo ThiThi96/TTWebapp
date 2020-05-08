@@ -27,8 +27,8 @@ module.exports = (sequelize, Sequelize) => {
     timestamps: false
   };
   let brandModel = sequelize.define("brand", attributes, options);
-  // brandModel.associate = function(models) {
-  //   brandModel.hasMany(models.Products, { foreignKey: 'BrandId', as: 'products' });
-  // };
+  brandModel.associate = function(models) {
+    brandModel.hasMany(models.Products, { foreignKey: 'BrandId', as: 'products' });
+  };
   return brandModel;
 };

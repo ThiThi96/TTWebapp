@@ -100,9 +100,9 @@ module.exports = (sequelize, Sequelize) => {
     }]
   };
   let productModel = sequelize.define("product", attributes, options);
-  // productModel.associate = function(models) {
-  //   productModel.belongsTo(models.Categories, { as: 'category' });
-  //   productModel.belongsTo(models.Brands, { as: 'brand' });
-  // };
+  productModel.associate = function(models) {
+    productModel.belongsTo(models.Categories, { foreignKey: 'CategoryId', as: 'category' });
+    productModel.belongsTo(models.Brands, { foreignKey: 'BrandId', as: 'brand' });
+  };
   return productModel;
 };

@@ -3,18 +3,24 @@ let productBusiness = require('../BLL').ProductBusiness;
 
 let productController = {
 	GetProducts: function(req, res){
-		productBusiness.GetProductsByCategoryId(9, 0, 2)
-						.then(data => {
-							console.log(data);
-						}).catch(err => {
-							console.log(err);
-						});
-		res.render('product.hbs', {
-			products: models.Product,
-			categories: models.Category,
-			brands: models.Brand,
-			colours: models.Colour
+		let getProducts = undefined;
+		if (req.query['categoryId'])
+		{
+			let offset = req.query['offset'] ? req.query['offset'] : 0;
+			let numberOfItems = req.query['numberOfItems'] ? req.query['numberOfItems'] : 6;
+			getProducts = productBusiness.GetCategories(categoryId, offset, numberOfItems);
+		}
+		let getCategories = productBusiness.GetCategories();
+		let getBrandsByCategoryId = productBusiness.GetBrandsByCategoryId(9);
+
+		Promise.all([getProducts, getCategories, getBrandsByCategoryId]).then((values) => {
+			res.render('product.hbs', {
+				products: values[0],
+				categories: values[1],
+				brands: values[2]
+			});		  
 		});
+
 	},
 	GetProductById: function(req, res){
 		res.render('product-detail.hbs', {
