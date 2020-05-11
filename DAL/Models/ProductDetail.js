@@ -59,7 +59,7 @@ module.exports = (sequelize, Sequelize) => {
     }
   };
   let options = {
-    tableName: "producdetail",
+    tableName: "productdetail",
     comment: "",
     freezeTableName: true,
     timestamps: false,
@@ -80,6 +80,9 @@ module.exports = (sequelize, Sequelize) => {
       fields: ["ColourId"]
     }]
   };
-  let ProducdetailModel = sequelize.define("producdetail", attributes, options);
-  return ProducdetailModel;
+  let producDetailModel = sequelize.define("productdetail", attributes, options);
+  producDetailModel.associate = function(models) {
+    producDetailModel.belongsTo(models.Sizes, { foreignKey: 'SizeId'});
+  };
+  return producDetailModel;
 };

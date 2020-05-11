@@ -12,7 +12,7 @@
                        <li><a href="category.html" class="nav-link">{{this.name}} <span class="badge badge-secondary">{{this.number}}</span></a>
                         <ul class="list-unstyled">
                           {{#each this.subCategories}}
-                            <li><a href="category.html" class="nav-link">{{this.name}}</a></li>
+                            <li><a href="/product?categoryId={{this.id}}" class="nav-link">{{this.name}}</a></li>
                           {{/each}}
                         </ul>
                       </li>                   

@@ -4,6 +4,7 @@ let port = 3000;
 let exphbs  = require('express-handlebars');
 let controllers = require('./Controllers/Controllers');
 let db = require("./DAL/Models");
+let cookieParser = require('cookie-parser');
 
 
 let hbs = exphbs.create({
@@ -17,6 +18,7 @@ app.set('view engine', 'hbs');
 
 app.use(express.static('public'));
 app.use('/components', express.static('node_modules'));
+app.use(cookieParser());
 
 app.get('/', (req, res) => res.render('index'));
 

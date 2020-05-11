@@ -1,5 +1,6 @@
 let db = require('../DAL/Models');
-let Sequelize = require("sequelize");
+// let Sequelize = require("sequelize");
+// let sequelize = new Sequelize();
 
 let productBusiness = {
 	GetProductsByCategoryId: function(categoryId, offset, numberOfItems, orderBy, isDesc){
@@ -23,6 +24,7 @@ let productBusiness = {
 					 	offset: offset,
 					 	order: [[orderBy ? orderBy : 'ProductName', isDesc ? 'DESC' : 'ASC']]
 					 }).then(data => {
+					 	console.log('get products done');
 					 	let products = data.map(x => {
 					 		let product = x.get();
 					 		return {
@@ -32,7 +34,8 @@ let productBusiness = {
 						 		description: product.Description,
 						 		brand: product.brand != undefined ? product.brand.BrandName : "",
 						 		category: product.category != undefined ? product.category.CategoryName : "",
-						 		image: product.Image
+						 		image: product.Image,
+						 		categoryId: product.CategoryId
 					 		}
 
 					 	});
@@ -48,7 +51,7 @@ let productBusiness = {
 				   			"CategoryId",
 				   			"CategoryName",
 				   			"ParentId",
-				   			[Sequelize.fn('COUNT', Sequelize.col('ProductId')), 'NumberOfProducts'] 
+				   			[db.Sequelize.fn('COUNT', db.Sequelize.col('ProductId')), 'NumberOfProducts'] 
 				   		], 
 				   		group: [ "CategoryId", "CategoryName"],
 				   		include: {
@@ -57,7 +60,7 @@ let productBusiness = {
 				   		}
 				   })
 				   .then(data => {
-
+				   		console.log('get categories done');
 				   		let parentCategories = [];
 				   		for (let i = 0; i < data.length; i++)
 				   		{	//console.log(data[i].get());
@@ -95,7 +98,7 @@ let productBusiness = {
 			   		attributes: [ 
 			   			'BrandId', 
 			   			'BrandName',
-			   			[Sequelize.fn('COUNT', Sequelize.col('ProductId')), 'NumberOfProducts'] 
+			   			[db.Sequelize.fn('COUNT', db.Sequelize.col('ProductId')), 'NumberOfProducts'] 
 			   			],
 			   		group: [ 'BrandId', 'BrandName' ],
 			   		include: {
@@ -106,6 +109,7 @@ let productBusiness = {
 			   			}
 			   		}
 			   }).then(data => {
+			   		console.log('get brands done');
 				   	let brands = data.map(x => {
 				   		let brand = x.get();
 				   		return {
@@ -116,6 +120,76 @@ let productBusiness = {
 					});
 				   	resolve(brands);
 			   });
+		});
+	},
+	GetProductById: function(productId){
+		let getProduct = db.Products
+						   .findOne({
+						   		where: {
+						   			productId: productId
+						   		},
+						   		include: [
+							 		{
+							 			model: db.Brands,
+							 			as: 'brand'
+							 		},
+							 		{
+							 			model: db.Categories,
+							 			as: 'category'
+							 		}
+							 	]
+						   	});
+		let getProductDetails = db.ProductDetails
+								  .findAll({
+								  	attributes: [ 'ProductDetailId', 'Size.SizeId', 'Size.SizeName', 'ProductId' ],
+								  	include: {
+								  		model: db.Sizes
+								  	},
+								  	where: {
+								  		ProductId: productId
+								  	}
+								  });
+		return Promise.all([getProduct, getProductDetails])
+					  .then(data => {
+					  	let product = {
+						 		id: data[0].ProductId,
+						 		name: data[0].ProductName,
+						 		price: data[0].Price,
+						 		description: data[0].Description,
+						 		brand: data[0].brand != undefined ? data[0].brand.BrandName : "",
+						 		category: data[0].category != undefined ? data[0].category.CategoryName : "",
+						 		image: data[0].Image,
+						 		categoryId: data[0].CategoryId,
+						 		details: data[1]
+					 		};
+					  	return product;
+					  });
+	},
+	GetProductsByIds: function(productIds){
+		return new Promise(function(resolve, reject) {
+			db.Products
+				.findAll({
+					where: {
+						ProductId: productIds
+				 	}
+				 }).then(data => {
+				 	console.log('get products done');
+				 	let products = data.map(x => {
+				 		let product = x.get();
+				 		return {
+					 		id: product.ProductId,
+					 		name: product.ProductName,
+					 		price: product.Price,
+					 		description: product.Description,
+					 		brand: product.brand != undefined ? product.brand.BrandName : "",
+					 		category: product.category != undefined ? product.category.CategoryName : "",
+					 		image: product.Image,
+					 		categoryId: product.CategoryId
+				 		}
+
+				 	});
+				 	resolve(products);
+				 });
 		});
 	}
 };
