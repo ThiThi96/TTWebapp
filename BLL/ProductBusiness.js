@@ -60,7 +60,6 @@ let productBusiness = {
 				   		}
 				   })
 				   .then(data => {
-				   		console.log('get categories done');
 				   		let parentCategories = [];
 				   		for (let i = 0; i < data.length; i++)
 				   		{	//console.log(data[i].get());
@@ -173,7 +172,7 @@ let productBusiness = {
 						ProductId: productIds
 				 	}
 				 }).then(data => {
-				 	console.log('get products done');
+				 	console.log('get products by ids done');
 				 	let products = data.map(x => {
 				 		let product = x.get();
 				 		return {
@@ -191,6 +190,53 @@ let productBusiness = {
 				 	resolve(products);
 				 });
 		});
+	},
+	GetProductsByKeyword: function(keyword, offset, numberOfItems, orderBy, isDesc){
+		return db.Products
+				 .findAll({
+				 	where: {
+				 		[db.Sequelize.Op.or]: [
+				 			{
+				 				ProductName: {
+				 					[db.Sequelize.Op.like]: `%${keyword}%`
+				 				}
+				 			},
+				 			{
+				 				Description: {
+				 					[db.Sequelize.Op.like]: `%${keyword}%`
+				 				}
+				 			},
+				 			{
+				 				'$Brand.BrandName$': {
+				 					[db.Sequelize.Op.like]: `%${keyword}%`
+				 				}
+				 			}
+				 		]
+				 	},
+				 	include: {
+				 		model: db.Brands,
+				 		as: 'brand'
+				 	},
+				 	limit: numberOfItems,
+				 	offset: offset,
+				 	order: [[orderBy ? orderBy : 'ProductName', isDesc ? 'DESC' : 'ASC']]
+				 }).then(data => {
+				 	let products = data.map(x => {
+					 		let product = x.get();
+					 		return {
+						 		id: product.ProductId,
+						 		name: product.ProductName,
+						 		price: product.Price,
+						 		description: product.Description,
+						 		brand: product.brand != undefined ? product.brand.BrandName : "",
+						 		category: product.category != undefined ? product.category.CategoryName : "",
+						 		image: product.Image,
+						 		categoryId: product.CategoryId
+					 		}
+
+					 	});
+				 	return products;
+				 });
 	}
 };
 

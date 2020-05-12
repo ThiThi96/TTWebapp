@@ -3,22 +3,31 @@ let productBusiness = require('../BLL').ProductBusiness;
 
 let productController = {
 	GetProducts: function(req, res){
-		let getProducts = undefined;
-		let getBrands = undefined;
 		let offset = req.query['offset'] ? req.query['offset'] : 0;
 		let numberOfItems = req.query['numberOfItems'] ? req.query['numberOfItems'] : 6;
+		let promises = [];
+		console.log(req.query);
+		let getCategories = productBusiness.GetCategories();
+		promises.push(getCategories);
 		if (req.query['categoryId'])
 		{
 			getProducts = productBusiness.GetProductsByCategoryId(req.query['categoryId'], offset, numberOfItems);
 			getBrandsByCategoryId = productBusiness.GetBrandsByCategoryId(req.query['categoryId']);
+			Array.prototype.push.apply(promises, [getProducts, getBrandsByCategoryId]);
 		}
-		let getCategories = productBusiness.GetCategories();
+		else if (req.query['keyword'])
+		{
+			getProducts = productBusiness.GetProductsByKeyword(req.query['keyword'], offset, numberOfItems);
+			promises.push(getProducts);
+		}
 
-		Promise.all([getProducts, getCategories, getBrandsByCategoryId]).then((values) => {
+
+		Promise.all(promises).then((values) => {
 			res.render('product.hbs', {
-				products: values[0],
-				categories: values[1],
-				brands: values[2]
+				products: values[1],
+				categories: values[0],
+				brands: values[2],
+				categoryId: req.query['categoryId']
 			});		  
 		});
 
@@ -27,12 +36,10 @@ let productController = {
 		if (req.params['productId'])
 		{
 			let cookie = req.cookies['products'];
-			console.log(cookie);
 			let promises = [];
 			let product = undefined;
 			let getProductAndBrands = productBusiness.GetProductById(req.params['productId'])
 													 .then(data => {
-													 	//console.log(data);
 														product = data;
 													 	return productBusiness.GetBrandsByCategoryId(product.categoryId);
 													 });
@@ -46,22 +53,25 @@ let productController = {
 				for (let i = 0; i < cookie.length;i++)
 				{
 					let categoryId = cookie[i].categoryId;
-					counts[categoryId] = counts[categoryId] ? counts[categoryId + 1] : 1;
+					counts[categoryId] = counts[categoryId] ? counts[categoryId] + 1 : 1;
 				}
+				
 				let mostViewedCategoryId = Object.keys(counts).find(x => counts[x] === Math.max(Object.values(counts)));
 				let getRecommendedProducts = productBusiness.GetProductsByCategoryId(mostViewedCategoryId, 0, 3);
-				promises.concat([getViewedProducts, getRecommendedProducts]);
+				Array.prototype.push.apply(promises, [getViewedProducts, getRecommendedProducts]);
 
 			}
 			Promise.all(promises).then((values) => {
 				if (cookie)
 			 	{
-			 		cookie.push({
-						id: req.params['productId'],
-						categoryId: product.categoryId
-					});
-					res.cookie('products', cookie);
-			 	}
+			 		if (!cookie.some(x => x.id === req.params['productId'])){
+				 		cookie.push({
+							id: req.params['productId'],
+							categoryId: product.categoryId
+						});
+						res.cookie('products', cookie);			 			
+			 		}
+				}
 			 	else
 				{
 					res.cookie('products', [{
@@ -73,8 +83,8 @@ let productController = {
 					categories: values[1],
 					brands: values[0],
 					product: product,
-					recommendedProducts: values[3] ? values[3] : [],
-					viewedProducts: values[2] ? values[2] : []
+					recommendedProducts: values[3],
+					viewedProducts: values[2]
 				});	
 			});
 		}

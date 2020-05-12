@@ -7,7 +7,7 @@
               <!-- breadcrumb-->
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="#">Home</a></li>
+                  <li class="breadcrumb-item"><a href="/">Home</a></li>
                   <li class="breadcrumb-item"><a href="#">Ladies</a></li>
                   <li class="breadcrumb-item"><a href="#">Tops</a></li>
                   <li aria-current="page" class="breadcrumb-item active">White Blouse Armani</li>
@@ -58,54 +58,60 @@
                   <p><a href="#" class="external facebook"><i class="fa fa-facebook"></i></a><a href="#" class="external gplus"><i class="fa fa-google-plus"></i></a><a href="#" class="external twitter"><i class="fa fa-twitter"></i></a><a href="#" class="email"><i class="fa fa-envelope"></i></a></p>
                 </div>
               </div>
-              <div class="row same-height-row">
-                <div class="col-md-3 col-sm-6">
-                  <div class="box same-height">
-                    <h3>You may also like these products</h3>
-                  </div>
-                </div>
-                {{#each recommendedProducts}}
-                  <div class="col-md-3 col-sm-6">
-                      <div class="product same-height">
-                        <div class="flip-container">
-                          <div class="flipper">
-                            <div class="front"><a href="/product/{{this.id}}"><img src="{{this.image}}" alt="" class="img-fluid"></a></div>
-                            <div class="back"><a href="/product/{{this.id}}"><img src="{{this.image}}" alt="" class="img-fluid"></a></div>
-                          </div>
-                        </div><a href="detail.html" class="invisible"><img src="{{this.image}}" alt="" class="img-fluid"></a>
-                        <div class="text">
-                          <h3>{{this.name}}</h3>
-                          <p class="price">{{this.price}}</p>
+              {{#if recommendedProducts}}
+                <div class="row same-height-row">
+                    <div class="col-md-3 col-sm-6">
+                      <div class="box same-height">
+                        <h3>You may also like these products</h3>
                       </div>
                     </div>
-                    <!-- /.product-->
-                  </div>
-                {{/each}}
-              </div>
-              <div class="row same-height-row">
-                <div class="col-md-3 col-sm-6">
-                  <div class="box same-height">
-                    <h3>Products viewed recently</h3>
-                  </div>
-                </div>
-                {{#each viewedProducts}}
-                  <div class="col-md-3 col-sm-6">
-                    <div class="product same-height">
-                        <div class="flip-container">
-                          <div class="flipper">
-                            <div class="front"><a href="/product/{{this.id}}"><img src="{{this.image}}" alt="" class="img-fluid"></a></div>
-                            <div class="back"><a href="/product/{{this.id}}"><img src="{{this.image}}" alt="" class="img-fluid"></a></div>
+                    {{#each recommendedProducts}}
+                      <div class="col-md-3 col-sm-6">
+                          <div class="product same-height">
+                            <div class="flip-container">
+                              <div class="flipper">
+                                <div class="front"><a href="/product/{{this.id}}"><img src="{{this.image}}" alt="" class="img-fluid"></a></div>
+                                <div class="back"><a href="/product/{{this.id}}"><img src="{{this.image}}" alt="" class="img-fluid"></a></div>
+                              </div>
+                            </div><a href="detail.html" class="invisible"><img src="{{this.image}}" alt="" class="img-fluid"></a>
+                            <div class="text">
+                              <h3>{{this.name}}</h3>
+                              <p class="price">{{this.price}}</p>
                           </div>
-                        </div><a href="detail.html" class="invisible"><img src="{{this.image}}" alt="" class="img-fluid"></a>
-                        <div class="text">
-                          <h3>{{this.name}}</h3>
-                          <p class="price">{{this.price}}</p>
                         </div>
+                        <!-- /.product-->
+                      </div>
+                  {{/each}}
+                </div>
+              {{/if}}
+
+              {{#if viewedProducts}}
+                <div class="row same-height-row">
+                  <div class="col-md-3 col-sm-6">
+                    <div class="box same-height">
+                      <h3>Products viewed recently</h3>
                     </div>
-                      <!-- /.product-->
-                    </div>                
-                {{/each}}
-              </div>
+                  </div>
+                  {{#each viewedProducts}}
+                    <div class="col-md-3 col-sm-6">
+                      <div class="product same-height">
+                          <div class="flip-container">
+                            <div class="flipper">
+                              <div class="front"><a href="/product/{{this.id}}"><img src="{{this.image}}" alt="" class="img-fluid"></a></div>
+                              <div class="back"><a href="/product/{{this.id}}"><img src="{{this.image}}" alt="" class="img-fluid"></a></div>
+                            </div>
+                          </div><a href="detail.html" class="invisible"><img src="{{this.image}}" alt="" class="img-fluid"></a>
+                          <div class="text">
+                            <h3>{{this.name}}</h3>
+                            <p class="price">{{this.price}}</p>
+                          </div>
+                      </div>
+                        <!-- /.product-->
+                      </div>                
+                  {{/each}}
+                </div>
+              {{/if}}
+
             </div>
             <!-- /.col-md-9-->
           </div>
