@@ -62,6 +62,15 @@ module.exports = (sequelize, Sequelize) => {
       autoIncrement: false,
       comment: null,
       field: "Tax"
+    },
+    ShippingCost: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      defaultValue: 0,
+      primaryKey: false,
+      autoIncrement: false,
+      comment: null,
+      field: "ShippingCost"
     }
   };
   let options = {

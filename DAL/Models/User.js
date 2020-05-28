@@ -29,7 +29,7 @@ module.exports = (sequelize, Sequelize) => {
       field: "Email"
     },
     Password: {
-      type: Sequelize.STRING(45),
+      type: Sequelize.STRING(100),
       allowNull: true,
       defaultValue: null,
       primaryKey: false,

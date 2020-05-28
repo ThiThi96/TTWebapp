@@ -51,16 +51,16 @@
                           <td>{{this.date}}</td>
                           <td>{{this.total}}</td>
                           <td>
-                              {{#compare this.status.Value ../statusEnums.BeingPrepared.Value}}
+                              {{#compare this.statusId ../statusEnums.BeingPrepared.Value}}
                                 <span class="badge badge-info">Being prepared</span>
                               {{/compare}}
-                              {{#compare this.status.Value ../statusEnums.Cancelled.Value}}
+                              {{#compare this.statusId ../statusEnums.Cancelled.Value}}
                                 <span class="badge badge-danger">Cancelled</span>
                               {{/compare}}
-                              {{#compare this.status.Value ../statusEnums.Received.Value}}
+                              {{#compare this.statusId ../statusEnums.Received.Value}}
                                 <span class="badge badge-success">Received</span>
                               {{/compare}}
-                              {{#compare this.status.Value ../statusEnums.OnHold.Value}}
+                              {{#compare this.statusId ../statusEnums.OnHold.Value}}
                                 <span class="badge badge-warning">On hold</span>
                               {{/compare}}
                           </td>

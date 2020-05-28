@@ -6,7 +6,6 @@ let productController = {
 		let offset = req.query['offset'] ? req.query['offset'] : 0;
 		let numberOfItems = req.query['numberOfItems'] ? req.query['numberOfItems'] : 6;
 		let promises = [];
-		console.log(req.query);
 		let getCategories = productBusiness.GetCategories();
 		promises.push(getCategories);
 		if (req.query['categoryId'])
@@ -27,7 +26,8 @@ let productController = {
 				products: values[1],
 				categories: values[0],
 				brands: values[2],
-				categoryId: req.query['categoryId']
+				categoryId: req.query['categoryId'],
+				user: req.user
 			});		  
 		});
 
@@ -84,7 +84,8 @@ let productController = {
 					brands: values[0],
 					product: product,
 					recommendedProducts: values[3],
-					viewedProducts: values[2]
+					viewedProducts: values[2],
+					user: req.user
 				});	
 			});
 		}

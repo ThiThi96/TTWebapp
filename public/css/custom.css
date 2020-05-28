@@ -3,3 +3,9 @@
 	height: 338px !important;
 	object-fit: cover;
 }
+
+.user-icon {
+	color: #eb2364;
+    margin-right: 5px;
+    margin-left: 5px;
+}

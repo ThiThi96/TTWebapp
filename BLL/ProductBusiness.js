@@ -1,6 +1,4 @@
 let db = require('../DAL/Models');
-// let Sequelize = require("sequelize");
-// let sequelize = new Sequelize();
 
 let productBusiness = {
 	GetProductsByCategoryId: function(categoryId, offset, numberOfItems, orderBy, isDesc){
@@ -24,7 +22,7 @@ let productBusiness = {
 					 	offset: offset,
 					 	order: [[orderBy ? orderBy : 'ProductName', isDesc ? 'DESC' : 'ASC']]
 					 }).then(data => {
-					 	console.log('get products done');
+					 	//console.log('get products done');
 					 	let products = data.map(x => {
 					 		let product = x.get();
 					 		return {

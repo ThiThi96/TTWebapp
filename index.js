@@ -5,7 +5,9 @@ let exphbs  = require('express-handlebars');
 let controllers = require('./Controllers/Controllers');
 let db = require("./DAL/Models");
 let cookieParser = require('cookie-parser');
-
+let bodyParser = require('body-parser');
+let passport = require('passport');
+let auth = require('./Configuration/auth');
 
 let hbs = exphbs.create({
 	extname: '.hbs',
@@ -18,26 +20,32 @@ app.set('view engine', 'hbs');
 
 app.use(express.static('public'));
 app.use('/components', express.static('node_modules'));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(auth(passport).AuthByJwt);
 
-app.get('/', (req, res) => res.render('index'));
+require('./Configuration/passport-config')(passport);
+
+app.get('/', controllers.Home.Index);
 
 
 
-app.get('/product', (req, res) => controllers.Product.GetProducts(req, res));
-app.get('/product/:productId', (req, res) => controllers.Product.GetProductById(req, res));
-//app.get('/product/search/:keyword.:brand.:color', (req, res) => res.render('index'));
+app.get('/product', controllers.Product.GetProducts);
+app.get('/product/:productId', controllers.Product.GetProductById);
 
-app.get('/user/:userId', (req, res) => res.render('customer'));
-app.post('/user', (req, res) => res.render('index'));
-app.post('/user/logIn', (req, res) => res.render('index'));
-app.post('/user/logOut', (req, res) => res.render('index'));
 
-app.get('/user/:userId/order', (req, res) => controllers.Order.GetOrderByUserId(req, res));
-app.post('/user/:userId/order', (req, res) => controllers.Order.AddOrder(req, res));
-app.get('/user/:userId/basket', (req, res) => controllers.Order.GetBasketByUserId(req, res));
-app.get('/order/:orderId', (req, res) => controllers.Order.GetOrderById(req, res));
-app.post('/order/:orderId/remove/:productId', (req, res) => controllers.Order.RemoveProductFromOrder(req, res));
+app.get('/user/:userId(\\d+)', controllers.User.GetUserDetails);
+app.get('/register', controllers.User.RegisterIndex);
+app.post('/register', controllers.User.AddUser);
+app.post('/user/logIn', controllers.User.LogIn);
+app.post('/user/logOut', controllers.User.LogOut);
+
+app.get('/user/:userId/order', controllers.Order.GetOrdersByUserId);
+//app.post('/user/:userId/order', passport.authenticate('jwt', {session: false}), controllers.Order.AddOrder);
+//app.get('/user/:userId/basket', controllers.Order.GetBasketByUserId);
+app.get('/order/:orderId', controllers.Order.GetOrderById);
+//app.post('/order/:orderId/remove/:productId', passport.authenticate('jwt', {session: false}), controllers.Order.RemoveProductFromOrder);
 
 
 function compareHelper(lvalue, rvalue, options) {
