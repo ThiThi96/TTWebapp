@@ -95,7 +95,9 @@ let userController = {
 			Promise.all([getUserDetails, getCategories])
 					.then(function(values) {
 						let user = values[0];
+						user.id = user.UserId,
 						user.name = `${user.FirstName} ${user.LastName}`;
+						user.isNotFromFb = user.FacebookId == null ? true : false;
 						res.render('customer', {
 							user: user,
 							categories: values[1]
@@ -109,6 +111,33 @@ let userController = {
 				user: req.user
 			});
 		}
+	},
+	LogInByFacebook: function(req, res){
+		passport.authenticate('facebook', {session: false}, (err, user, info) => {
+	        if (err || !user) {
+	            return res.status(400).json({
+	                message: 'Something is not right',
+	                user   : user
+	            });
+	        }
+	        let jwtPayload = {
+	        	id: user.UserId
+	        };
+	        let expireTime = 10*24*60*60*1000;
+	        let token = jwt.sign(jwtPayload, 'your_jwt_secret'
+	        // 	, 
+	        // { 
+	        // 	expiresIn: expireTime/1000
+	        // }
+	        );
+
+	        res.cookie('jwt', token, {
+	        	httpOnly: true,
+	        	sameSite: true,
+	        	maxAge: expireTime
+	        });
+	  		res.redirect('back');
+	    })(req, res);		
 	}
 };
 

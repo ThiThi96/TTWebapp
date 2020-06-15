@@ -8,13 +8,22 @@ let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
 let passport = require('passport');
 let auth = require('./Configuration/auth');
+let helpers = require('handlebars-helpers');
+let math = helpers.math();
+
+let customHelpers = {
+		compare: compareHelper,
+		loop: Times
+};
 
 let hbs = exphbs.create({
 	extname: '.hbs',
 	helpers: {
-		compare: compareHelper
+		...customHelpers,
+		...math
 	}
 });
+
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 
@@ -47,6 +56,11 @@ app.get('/user/:userId/order', controllers.Order.GetOrdersByUserId);
 app.get('/order/:orderId', controllers.Order.GetOrderById);
 //app.post('/order/:orderId/remove/:productId', passport.authenticate('jwt', {session: false}), controllers.Order.RemoveProductFromOrder);
 
+app.get('/auth/facebook',
+  passport.authenticate('facebook', { session: false }));
+
+app.get('/auth/facebook/callback', controllers.User.LogInByFacebook);
+
 
 function compareHelper(lvalue, rvalue, options) {
 
@@ -78,4 +92,16 @@ function compareHelper(lvalue, rvalue, options) {
 		}
 		
 	};
+
+function Times(n, block) {
+    var accum = '';
+    for(var i = 0; i < n; i ++) {
+        block.data.index = i;
+        block.data.position = i + 1;
+        block.data.first = i === 0;
+        block.data.last = i === (n - 1);
+        accum += block.fn(this);
+    }
+    return accum;
+};
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

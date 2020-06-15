@@ -1,4 +1,5 @@
 module.exports = {
 	ProductBusiness: require('./ProductBusiness'),
-	UserBusiness: require('./UserBusiness')
+	UserBusiness: require('./UserBusiness'),
+	OrderBusiness: require('./OrderBusiness')
 };

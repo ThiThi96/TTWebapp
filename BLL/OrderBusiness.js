@@ -1,4 +1,31 @@
 let db = require('../DAL/Models');
+let Status = {
+	OnHold: {
+		Value: 1,
+		Description: 'On hold'
+	},
+	BeingPrepared: {
+		Value: 2,
+		Description: 'Being prepared'
+	},
+	Cancelled: {
+		Value: 3,
+		Description: 'Cancelled'
+	},
+	Received: {
+		Value: 4,
+		Description: 'Received'
+	}
+};
+
+function GetOrderStatusDescription(value){
+	for (let i in Status)
+	{
+		if (Status[i].Value === value)
+			return Status[i].Description;
+	}
+	return null;
+}
 
 let orderBusiness = {
 	GetOrdersByUserId: function(userId, offset, numberOfItems, orderBy, isDesc) {
@@ -25,35 +52,46 @@ let orderBusiness = {
 				 });
 	},
 	GetOrderDetailsById: function(orderId) {
-		let query = `SELECT *
-					 FROM Order O
-					 	INNER JOIN OrderDetail OD ON O.OrderId = OD.OrderId
-					 	INNER JOIN ProductDetail PD ON OD.ProductDetailId = PD.ProductDetailId
-					 	INNER JOIN Product P ON PD.ProductId = P.ProductId
-					 WHERE O.OrderId = $orderId`;
-		return db.Sequelize.query(query, {
-					bind: { orderId: orderId },
-		    		type: db.Squelize.SELECT
+		let query = `SELECT O.OrderId, O.CreatedDate as Date, O.SubTotal, O.ShippingCost, O.Tax, O.UserId, O.StatusId,
+							P.Image, P.ProductId, P.Price, P.ProductName,
+							P.Price * OD.Quantity as DetailTotal, OD.Discount, OD.Quantity
+					 FROM shop.Order O
+					 	INNER JOIN shop.OrderDetail OD ON O.OrderId = OD.OrderId
+					 	INNER JOIN shop.ProductDetail PD ON OD.ProductDetailId = PD.ProductDetailId
+					 	INNER JOIN shop.Product P ON PD.ProductId = P.ProductId
+					 WHERE O.OrderId = ?`;
+		return db.sequelize.query(query, {
+					replacements: [orderId],
+		    		type: db.Sequelize.SELECT
 				}).then(data => {
-					let result = {
-						id: data[0].OrderId,
-						date: data[0].date,
-						subTotal: data[0].SubTotal,
-						shippingCost: data[0].ShippingCost,
-						tax: data[0].Tax,
-						total: subTotal + tax,
-						products: []
-					};
-					for (let i =0; i< data.length; i++)
+					let orderDetails = data[0];
+					let result = null;
+					if (orderDetails.length > 0)
 					{
-						result.products.push({
-							id: data[i].ProductId,
-							price: data[i].Price,
-							discount: data[i].Discount,
-							total: data[i].DetailTotal,
-							image: data[i].Image,
-							name: data[i].ProductName
-						});
+						result = {
+							id: orderDetails[0].OrderId,
+							date: orderDetails[0].Date,
+							subTotal: orderDetails[0].SubTotal,
+							shippingCost: orderDetails[0].ShippingCost,
+							tax: orderDetails[0].Tax,
+							total: orderDetails[0].SubTotal + orderDetails[0].Tax + orderDetails[0].ShippingCost,
+							userId: orderDetails[0].UserId,
+							products: [],
+							statusEnums: Status,
+							statusDescription: GetOrderStatusDescription(orderDetails[0].StatusId)
+						};
+						for (let i =0; i< orderDetails.length; i++)
+						{
+							result.products.push({
+								id: orderDetails[i].ProductId,
+								price: orderDetails[i].Price,
+								discount: orderDetails[i].Discount,
+								total: orderDetails[i].DetailTotal - orderDetails[i].DetailTotal * (orderDetails[i].Discount/100),
+								image: orderDetails[i].Image,
+								name: orderDetails[i].ProductName,
+								quantity: orderDetails[i].Quantity
+							});
+						}
 					}
 					return result;
 				});		

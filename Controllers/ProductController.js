@@ -3,16 +3,17 @@ let productBusiness = require('../BLL').ProductBusiness;
 
 let productController = {
 	GetProducts: function(req, res){
-		let offset = req.query['offset'] ? req.query['offset'] : 0;
-		let numberOfItems = req.query['numberOfItems'] ? req.query['numberOfItems'] : 6;
+		let offset = req.query['offset'] ? parseInt(req.query['offset']) : 0;
+		let numberOfItems = req.query['numberOfItems'] ? parseInt(req.query['numberOfItems']) : 6;
 		let promises = [];
 		let getCategories = productBusiness.GetCategories();
 		promises.push(getCategories);
 		if (req.query['categoryId'])
 		{
 			getProducts = productBusiness.GetProductsByCategoryId(req.query['categoryId'], offset, numberOfItems);
+			getTotal = productBusiness.GetNumberOfProductsByCategoryId(req.query['categoryId']);
 			getBrandsByCategoryId = productBusiness.GetBrandsByCategoryId(req.query['categoryId']);
-			Array.prototype.push.apply(promises, [getProducts, getBrandsByCategoryId]);
+			Array.prototype.push.apply(promises, [getProducts, getBrandsByCategoryId, getTotal]);
 		}
 		else if (req.query['keyword'])
 		{
@@ -22,12 +23,18 @@ let productController = {
 
 
 		Promise.all(promises).then((values) => {
+			let total = values[3];
+			let numberOfPages = total % numberOfItems != 0 ? parseInt(total/numberOfItems) + 1 : parseInt(total/numberOfItems);
 			res.render('product.hbs', {
 				products: values[1],
 				categories: values[0],
 				brands: values[2],
 				categoryId: req.query['categoryId'],
-				user: req.user
+				user: req.user,
+				numberOfItemsPerPage: numberOfItems,
+				total: total,
+				offset: offset,
+				numberOfPages: numberOfPages
 			});		  
 		});
 

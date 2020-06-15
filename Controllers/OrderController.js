@@ -13,7 +13,8 @@ let orderController = {
 				res.render('customer-order', {
 					categories: values[0],
 					orders: values[1],
-					statusEnums: models.Order.statusEnums
+					statusEnums: models.Order.statusEnums,
+					user: req.user
 				});		
 			});			
 		}
@@ -30,9 +31,41 @@ let orderController = {
 	},
 	GetOrderById: function(req, res){
 		let orderId = req.params['orderId'];
-		res.render('customer-order-detail', 
-			models.Order.orders[0]
-		);		
+		let promises = [productBusiness.GetCategories()];
+		if (req.user && orderId)
+		{
+			let getOrder = orderBusiness.GetOrderDetailsById(orderId)
+										 .then(order => {
+										 	if (order && order.userId === req.user.id)
+										 	{
+										 		return order;
+										 	}
+										 	return null;
+										 });
+			promises.push(getOrder);
+		}
+		Promise.all(promises).then(values => {
+			if (values[1]){
+				res.render('customer-order-detail', 
+					{
+						categories: values[0],
+						order: values[1],
+						user: req.user
+					}
+				);					
+			}
+			else
+			{
+				productBusiness.GetCategories()
+				   .then(categories => {
+				   	 res.render('404', {
+				   	 	categories: categories,
+				   	 	user: req.user
+				   	 });
+				   });				
+			}
+		});
+	
 	},
 	AddOrder: function(req, res){
 		res.render('customer-order-detail');

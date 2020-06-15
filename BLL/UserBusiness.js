@@ -10,7 +10,8 @@ let userBusiness = {
 	GetUser: function(email, password){
 		return db.Users.findOne({
 							where: {
-								Email: email
+								Email: email,
+								FacebookId: null
 							}
 						}).then(data => {
 							return data ? data.get() : undefined;
@@ -21,6 +22,19 @@ let userBusiness = {
 					   .then(data => {
 					   	 return data ? data.get() : undefined;
 					   });
+	},
+	GetOrAddUserByFacebookProfile: function(profile) {
+		return db.Users.findOrCreate({
+					where: {
+						FacebookId: profile.id
+					},
+					defaults: {
+						FirstName: profile.name['givenName'],
+						LastName: profile.name['familyName']
+					}
+				}).then(data => {
+					return data ? data[0].get() : undefined;
+				});
 	}
 };
 

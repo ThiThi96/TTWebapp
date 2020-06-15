@@ -22,7 +22,6 @@ let productBusiness = {
 					 	offset: offset,
 					 	order: [[orderBy ? orderBy : 'ProductName', isDesc ? 'DESC' : 'ASC']]
 					 }).then(data => {
-					 	//console.log('get products done');
 					 	let products = data.map(x => {
 					 		let product = x.get();
 					 		return {
@@ -40,6 +39,15 @@ let productBusiness = {
 					 	resolve(products);
 					 });
 			});
+	},
+	GetNumberOfProductsByCategoryId: function(categoryId){
+		return db.Products.count({
+			where:{
+				categoryId: categoryId
+			}
+		}).then(data => {
+			return data;
+		});
 	},
 	GetCategories: function(){
 		return new Promise(function(resolve, reject){
@@ -60,7 +68,7 @@ let productBusiness = {
 				   .then(data => {
 				   		let parentCategories = [];
 				   		for (let i = 0; i < data.length; i++)
-				   		{	//console.log(data[i].get());
+				   		{	
 				   			let category = data[i].get();
 				   			if (category.ParentId === null || category.ParentId === 0)
 				   			{
@@ -79,8 +87,6 @@ let productBusiness = {
 				   					id: category.CategoryId,
 				   					name: category.CategoryName
 				   				});
-
-				   				//console.log(parentCategory);
 				   			}				   			
 				   		}
 
@@ -170,7 +176,6 @@ let productBusiness = {
 						ProductId: productIds
 				 	}
 				 }).then(data => {
-				 	console.log('get products by ids done');
 				 	let products = data.map(x => {
 				 		let product = x.get();
 				 		return {

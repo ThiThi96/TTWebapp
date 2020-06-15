@@ -81,6 +81,15 @@ module.exports = (sequelize, Sequelize) => {
       autoIncrement: false,
       comment: null,
       field: "Address"
+    },
+    FacebookId: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      defaultValue: null,
+      primaryKey: false,
+      autoIncrement: false,
+      comment: null,
+      field: "FacebookId"
     }
   };
   let options = {
