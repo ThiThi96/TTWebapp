@@ -59,7 +59,7 @@ let productBusiness = {
 				   			"ParentId",
 				   			[db.Sequelize.fn('COUNT', db.Sequelize.col('ProductId')), 'NumberOfProducts'] 
 				   		], 
-				   		group: [ "CategoryId", "CategoryName"],
+				   		group: [ "CategoryId", "CategoryName", "ParentId"],
 				   		include: {
 				   			model: db.Products,
 				   			as: 'products'
