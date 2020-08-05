@@ -144,7 +144,7 @@ let productBusiness = {
 						   	});
 		let getProductDetails = db.ProductDetails
 								  .findAll({
-								  	attributes: [ 'ProductDetailId', 'Size.SizeId', 'Size.SizeName', 'ProductId' ],
+								  	attributes: [ 'ProductDetailId', 'ProductId' ],
 								  	include: {
 								  		model: db.Sizes
 								  	},

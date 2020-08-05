@@ -2,6 +2,8 @@ let express = require('express');
 let app = express();
 let port = 3000;
 let exphbs  = require('express-handlebars');
+let dotenv = require('dotenv');
+dotenv.config();
 let controllers = require('./Controllers/Controllers');
 let db = require("./DAL/Models");
 let cookieParser = require('cookie-parser');
@@ -10,6 +12,7 @@ let passport = require('passport');
 let auth = require('./Configuration/auth');
 let helpers = require('handlebars-helpers');
 let math = helpers.math();
+
 
 let customHelpers = {
 		compare: compareHelper,
