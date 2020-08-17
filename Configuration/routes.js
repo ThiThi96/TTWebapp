@@ -10,8 +10,12 @@ module.exports = function(app, passport){
 
 
 	app.get('/user/:userId(\\d+)', controllers.User.GetUserDetails);
-	app.get('/register', controllers.User.RegisterIndex);
-	app.post('/register', controllers.User.AddUser);
+
+	app.route('/register')
+	   .get(controllers.User.RegisterIndex)
+	   .post(controllers.User.AddUser);
+	// app.get('/register', controllers.User.RegisterIndex);
+	// app.post('/register', controllers.User.AddUser);
 	app.post('/user/logIn', controllers.User.LogIn);
 	app.post('/user/logOut', controllers.User.LogOut);
 

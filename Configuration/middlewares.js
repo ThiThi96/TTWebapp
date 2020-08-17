@@ -2,6 +2,9 @@ let auth = require('./auth');
 let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
 let exphbs  = require('express-handlebars');
+let helpers = require('handlebars-helpers');
+let math = helpers.math();
+let customHelpers = require('./view-helpers');
 
 let hbs = exphbs.create({
 	extname: '.hbs',
