@@ -1,4 +1,5 @@
 let db = require('../DAL/Models');
+let models = require('./Models');
 let Status = {
 	OnHold: {
 		Value: 1,
@@ -40,13 +41,13 @@ let orderBusiness = {
 				 }).then(data => {
 			 		let orders = data.map(x => {
 				 		let order = x.get();
-				 		return {
-					 		id: order.OrderId,
-					 		date: order.CreatedDate,
-					 		total: order.SubTotal,
-					 		statusId: order.StatusId
-				 		};
-
+				 		// return {
+					 	// 	id: order.OrderId,
+					 	// 	date: order.CreatedDate,
+					 	// 	total: order.SubTotal,
+					 	// 	statusId: order.StatusId
+				 		// };
+				 		return new models.Order(order);
 				 	});
 				 	return orders;
 				 });
@@ -68,18 +69,21 @@ let orderBusiness = {
 					let result = null;
 					if (orderDetails.length > 0)
 					{
-						result = {
-							id: orderDetails[0].OrderId,
-							date: orderDetails[0].Date,
-							subTotal: orderDetails[0].SubTotal,
-							shippingCost: orderDetails[0].ShippingCost,
-							tax: orderDetails[0].Tax,
-							total: orderDetails[0].SubTotal + orderDetails[0].Tax + orderDetails[0].ShippingCost,
-							userId: orderDetails[0].UserId,
-							products: [],
-							statusEnums: Status,
-							statusDescription: GetOrderStatusDescription(orderDetails[0].StatusId)
-						};
+						// result = {
+						// 	id: orderDetails[0].OrderId,
+						// 	date: orderDetails[0].Date,
+						// 	subTotal: orderDetails[0].SubTotal,
+						// 	shippingCost: orderDetails[0].ShippingCost,
+						// 	tax: orderDetails[0].Tax,
+						// 	total: orderDetails[0].SubTotal + orderDetails[0].Tax + orderDetails[0].ShippingCost,
+						// 	userId: orderDetails[0].UserId,
+						// 	products: [],
+						// 	statusEnums: Status,
+						// 	statusDescription: GetOrderStatusDescription(orderDetails[0].StatusId)
+						// };
+						orderDetails[0].statuses = Status;
+						orderDetails[0].statusDescription = GetOrderStatusDescription(orderDetails[0].StatusId);
+						result = new models.Order(orderDetails[0]);
 						for (let i =0; i< orderDetails.length; i++)
 						{
 							result.products.push({

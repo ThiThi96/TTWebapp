@@ -2,16 +2,19 @@ let auth = require('./auth');
 let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
 let exphbs  = require('express-handlebars');
+let handlebars = require('handlebars');
 let helpers = require('handlebars-helpers');
 let math = helpers.math();
 let customHelpers = require('./view-helpers');
+let {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
 
 let hbs = exphbs.create({
 	extname: '.hbs',
 	helpers: {
 		...customHelpers,
 		...math
-	}
+	},
+	handlebars: allowInsecurePrototypeAccess(handlebars)
 });
 
 

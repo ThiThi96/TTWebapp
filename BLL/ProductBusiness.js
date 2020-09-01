@@ -1,4 +1,5 @@
 let db = require('../DAL/Models');
+let models = require('./Models');
 
 let productBusiness = {
 	GetProductsByCategoryId: function(categoryId, offset, numberOfItems, orderBy, isDesc){
@@ -24,16 +25,17 @@ let productBusiness = {
 					 }).then(data => {
 					 	let products = data.map(x => {
 					 		let product = x.get();
-					 		return {
-						 		id: product.ProductId,
-						 		name: product.ProductName,
-						 		price: product.Price,
-						 		description: product.Description,
-						 		brand: product.brand != undefined ? product.brand.BrandName : "",
-						 		category: product.category != undefined ? product.category.CategoryName : "",
-						 		image: product.Image,
-						 		categoryId: product.CategoryId
-					 		}
+					 		// return {
+						 	// 	id: product.ProductId,
+						 	// 	name: product.ProductName,
+						 	// 	price: product.Price,
+						 	// 	description: product.Description,
+						 	// 	brand: product.brand != undefined ? product.brand.BrandName : "",
+						 	// 	category: product.category != undefined ? product.category.CategoryName : "",
+						 	// 	image: product.Image,
+						 	// 	categoryId: product.CategoryId
+					 		// }
+					 		return new models.Product(product);
 
 					 	});
 					 	resolve(products);
@@ -72,21 +74,23 @@ let productBusiness = {
 				   			let category = data[i].get();
 				   			if (category.ParentId === null || category.ParentId === 0)
 				   			{
-				   				parentCategories.push({
-				   					id: category.CategoryId,
-				   					name: category.CategoryName,
-				   					number: 0,
-				   					subCategories: []
-				   				});
+				   				// parentCategories.push({
+				   				// 	id: category.CategoryId,
+				   				// 	name: category.CategoryName,
+				   				// 	number: 0,
+				   				// 	subCategories: []
+				   				// });
+				   				parentCategories.push(new models.Category(category));
 				   			}
 				   			else if (category.ParentId)
 				   			{
 				   				let parentCategory = parentCategories.find(x => x.id === category.ParentId);
 				   				parentCategory.number += category.NumberOfProducts;
-				   				parentCategory.subCategories.push({
-				   					id: category.CategoryId,
-				   					name: category.CategoryName
-				   				});
+				   				// parentCategory.subCategories.push({
+				   				// 	id: category.CategoryId,
+				   				// 	name: category.CategoryName
+				   				// });
+				   				parentCategory.subCategories.push(new models.Category(category));
 				   			}				   			
 				   		}
 
@@ -115,11 +119,13 @@ let productBusiness = {
 			   		console.log('get brands done');
 				   	let brands = data.map(x => {
 				   		let brand = x.get();
-				   		return {
-				   			id: brand.BrandId,
-				   			name: brand.BrandName,
-				   			number: brand.NumberOfProducts
-				   		}
+				   		// return {
+				   		// 	id: brand.BrandId,
+				   		// 	name: brand.BrandName,
+				   		// 	number: brand.NumberOfProducts
+				   		// }
+
+				   		return new models.Brand(brand);
 					});
 				   	resolve(brands);
 			   });
@@ -178,17 +184,17 @@ let productBusiness = {
 				 }).then(data => {
 				 	let products = data.map(x => {
 				 		let product = x.get();
-				 		return {
-					 		id: product.ProductId,
-					 		name: product.ProductName,
-					 		price: product.Price,
-					 		description: product.Description,
-					 		brand: product.brand != undefined ? product.brand.BrandName : "",
-					 		category: product.category != undefined ? product.category.CategoryName : "",
-					 		image: product.Image,
-					 		categoryId: product.CategoryId
-				 		}
-
+				 		// return {
+					 	// 	id: product.ProductId,
+					 	// 	name: product.ProductName,
+					 	// 	price: product.Price,
+					 	// 	description: product.Description,
+					 	// 	brand: product.brand != undefined ? product.brand.BrandName : "",
+					 	// 	category: product.category != undefined ? product.category.CategoryName : "",
+					 	// 	image: product.Image,
+					 	// 	categoryId: product.CategoryId
+				 		// }
+				 		return new models.Product(product);
 				 	});
 				 	resolve(products);
 				 });
@@ -226,17 +232,17 @@ let productBusiness = {
 				 }).then(data => {
 				 	let products = data.map(x => {
 					 		let product = x.get();
-					 		return {
-						 		id: product.ProductId,
-						 		name: product.ProductName,
-						 		price: product.Price,
-						 		description: product.Description,
-						 		brand: product.brand != undefined ? product.brand.BrandName : "",
-						 		category: product.category != undefined ? product.category.CategoryName : "",
-						 		image: product.Image,
-						 		categoryId: product.CategoryId
-					 		}
-
+					 		// return {
+						 	// 	id: product.ProductId,
+						 	// 	name: product.ProductName,
+						 	// 	price: product.Price,
+						 	// 	description: product.Description,
+						 	// 	brand: product.brand != undefined ? product.brand.BrandName : "",
+						 	// 	category: product.category != undefined ? product.category.CategoryName : "",
+						 	// 	image: product.Image,
+						 	// 	categoryId: product.CategoryId
+					 		// }
+					 		return new models.Product(product);
 					 	});
 				 	return products;
 				 });
