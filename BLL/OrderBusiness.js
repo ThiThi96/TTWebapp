@@ -86,15 +86,17 @@ let orderBusiness = {
 						result = new models.Order(orderDetails[0]);
 						for (let i =0; i< orderDetails.length; i++)
 						{
-							result.products.push({
-								id: orderDetails[i].ProductId,
-								price: orderDetails[i].Price,
-								discount: orderDetails[i].Discount,
-								total: orderDetails[i].DetailTotal - orderDetails[i].DetailTotal * (orderDetails[i].Discount/100),
-								image: orderDetails[i].Image,
-								name: orderDetails[i].ProductName,
-								quantity: orderDetails[i].Quantity
-							});
+							// result.products.push({
+							// 	id: orderDetails[i].ProductId,
+							// 	price: orderDetails[i].Price,
+							// 	discount: orderDetails[i].Discount,
+							// 	total: orderDetails[i].DetailTotal - orderDetails[i].DetailTotal * (orderDetails[i].Discount/100),
+							// 	image: orderDetails[i].Image,
+							// 	name: orderDetails[i].ProductName,
+							// 	quantity: orderDetails[i].Quantity
+							// });
+
+							result.products.push(new models.OrderDetail(orderDetails[i]));
 						}
 					}
 					return result;

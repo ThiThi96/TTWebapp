@@ -1,4 +1,4 @@
-let dbConfig = require("../../Configuration/Db.config.js");
+let dbConfig = require("../Db.config.js");
 
 let Sequelize = require("sequelize");
 let sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {

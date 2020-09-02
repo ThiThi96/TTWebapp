@@ -1,45 +1,42 @@
 class OrderDetail{
-	constructor(orderId, date, subTotal, shippingCost, tax, userId, products, statuses, statusDescription) {
-		this._id = orderId;
-		this._date = date;
-		this._subTotal = subTotal;
-		this._shippingCost = shippingCost;
-		this._tax = tax;
-		this._total = subTotal + tax + shippingCost;
-		this._userId = userId;
-		this._products = products;
-		this._statusEnums = statuses;
-		this._statusDescription = statusDescription
+	constructor(detail) {
+		this._id = detail.id;
+		this._productId = detail.ProductId;
+		this._price = detail.Price;
+		this._discount = detail.Discount ? detail.Discount : 0;
+		this._image = detail.Image;
+		this._name = detail.ProductName;
+		this._quantity = detail.Quantity;
+		this._detailTotal = detail.DetailTotal ? detail.DetailTotal : 0;
 	}
 
 
 	get id(){ return this._id }
 	set id(value){ this._id = value }
 
-	get date(){ return this._date }
-	set date(value){ this._date = value }
+	get productId(){ return this._productId }
+	set productId(value){ this._productId = value }
 
-	get subTotal(){ return this._subTotal }
-	set subTotal(value){ this._subTotal = value }
+	get price(){ return this._price }
+	set price(value){ this._price = value }
 
-	get shippingCost(){ return this._shippingCost }
-	set shippingCost(value){ this._shippingCost = value }
+	get discount(){ return this._discount }
+	set discount(value){ this._discount = value }
 
-	get tax(){ return this._tax }
-	set tax(value){ this._tax = value }
+	get image(){ return this._image }
+	set image(value){ this._image = value }
 
-	get total(){ return this._total }
-	set total(value){ this._total = value }
+	get name(){ return this._name }
+	set name(value){ this._name = value }
 
-	get userId(){ return this._userId }
-	set userId(value){ this._userId = value }
+	get quantity(){ return this._quantity }
+	set quantity(value){ this._quantity = value }	
 
-	get products(){ return this._products }
-	set products(value){ this._products = value }
 
-	get statusEnums(){ return this._statusEnums }
-	set statusEnums(value){ this._statusEnums = value }
-
-	get statusDescription(){ return this._statusDescription }
-	set statusDescription(value){ this._statusDescriptione = value }	
+	get total(){ 
+		return this._detailTotal - this._detailTotal * (this._discount/100);
+	}
+	set total(value){ this._quantity = value }		
 }
+
+module.exports = OrderDetail;
