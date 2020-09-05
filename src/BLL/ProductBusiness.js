@@ -2,6 +2,9 @@ let db = require('../DAL/Models');
 let models = require('./Models');
 
 let productBusiness = {
+	GetCategoriesTest: function(){
+		return []; 
+	},
 	GetProductsByCategoryId: function(categoryId, offset, numberOfItems, orderBy, isDesc){
 		return new Promise(function(resolve, reject) {
 				db.Products

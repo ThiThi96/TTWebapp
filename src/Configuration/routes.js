@@ -1,13 +1,10 @@
-let controllers = require('../Controllers/Controllers');
+let controllers = require('../Controllers');
 
 module.exports = function(app, passport){
 	app.get('/', controllers.Home.Index);
 
-
-
 	app.get('/product', controllers.Product.GetProducts);
 	app.get('/product/:productId', controllers.Product.GetProductById);
-
 
 	app.get('/user/:userId(\\d+)', controllers.User.GetUserDetails);
 
@@ -28,5 +25,4 @@ module.exports = function(app, passport){
 	app.get('/auth/facebook', passport.authenticate('facebook', { session: false }));
 
 	app.get('/auth/facebook/callback', controllers.User.LogInByFacebook);
-
 };
