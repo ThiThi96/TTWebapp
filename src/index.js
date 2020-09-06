@@ -11,4 +11,4 @@ require('./Configuration/middlewares')(app, express, passport);
 require('./Configuration/passport-config')(passport);
 require('./Configuration/routes')(app, passport);
 
-app.listen(port, () => console.log(`Example app listening on port ${PORT}!`));
+app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));

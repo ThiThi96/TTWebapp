@@ -13,5 +13,4 @@ let homeController = {
   }
 };
 
-// module.exports = homeController;
-export default homeController;
+module.exports = homeController;
