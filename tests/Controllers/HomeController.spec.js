@@ -15,6 +15,7 @@ jest.mock('@/BLL/ProductBusiness', () => {
   }
 });
 
+// Describe a groups of unit tests. This file is too simple that should have only 1
 describe('HomeController', () => {
   // Have to reset all mocks here
   beforeEach(() => {
