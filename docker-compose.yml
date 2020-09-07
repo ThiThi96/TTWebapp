@@ -12,7 +12,7 @@ services:
     environment:
       - DB_USERNAME=$DB_USERNAME
       - DB_PASSWORD=$DB_PASSWORD
-      - DB_HOSTNAME=$DB_HOSTNAME
+      - DB_HOSTNAME=db
       - DB_PORT=$DB_PORT
       - DB_DBNAME=$DB_DBNAME
     ports:
