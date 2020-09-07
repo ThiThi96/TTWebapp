@@ -8,25 +8,25 @@ Environment requirements:
 
 ## How to run the project
 
-- Remove postfix <mark style="background-color: lightblue">.example</mark> from <mark style="background-color: lightblue">.env.example</mark> file
+- Remove postfix `.example` from `.env.example` file
 - Fill in all the environment variables in this file
 
 
 ### If all environments are already set up
-- Connect to your MySQL server, run the script inside src/DAL/Data called <mark style="background-color: lightblue">ShopDatabase.sql</mark> containing the database used by the project
-- Open cmd and run <mark style="background-color: lightblue">npm run dev</mark>
+- Connect to your MySQL server, run the script inside `src/DAL/Data` called `ShopDatabase.sql` containing the database used by the project
+- Open cmd and run `npm run dev`
 
 If not, consider installing Docker and follow the below instructions:
 ### With Docker
-- Open cmd and run <mark style="background-color: lightblue">docker-compose up</mark> to create the images and containers
-- Move to src/DAL/Data
-- Copy database file from your host to the container running MySQL <mark style="background-color: lightblue">docker cp ShopDatabase.sql [container-id]:/ShopDatabase.sql</mark>
-- Enter the container running MySQL by <mark style="background-color: lightblue"> docker exec -it [container-id] /bin/bash</mark>
+- Open cmd and run `docker-compose up` to create the images and containers
+- Move to `src/DAL/Data`
+- Copy database file from your host to the container running MySQL `docker cp ShopDatabase.sql [container-id]:/ShopDatabase.sql`
+- Enter the container running MySQL by  `docker exec -it [container-id] /bin/bash`
 - Log in to MySQL server
 ```
 $ mysql -u root -p
 ```
-- Run <mark style="background-color: lightblue">source ShopDatabase.sql</mark> to run the database script
+- Run `source ShopDatabase.sql` to run the database script
 
 The application should be fine for you to discover.
 
