@@ -26,7 +26,7 @@ If not, consider installing Docker and follow the below instructions:
 ```
 $ mysql -u root -p
 ```
-- Run `source ShopDatabase.sql` to run the database script
+- Run `ShopDatabase.sql` to run the database script
 
 The application should be fine for you to discover.
 
