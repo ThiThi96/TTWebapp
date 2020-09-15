@@ -29,14 +29,3 @@ $ mysql -u root -p
 - Run `ShopDatabase.sql` to run the database script
 
 The application should be fine for you to discover.
-
-## Testing
-
-To test a file:
-`npm run test file.spec.js`
-
-To test all files:
-`npm run test`
-
-To test all files with coverage report:
-`npm run test-cover`
