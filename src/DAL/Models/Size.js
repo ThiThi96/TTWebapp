@@ -1,5 +1,5 @@
-module.exports =  (sequelize, Sequelize) => {
-  let attributes = {
+module.exports = (sequelize, Sequelize) => {
+  const attributes = {
     SizeId: {
       type: Sequelize.INTEGER,
       allowNull: false,
@@ -7,7 +7,7 @@ module.exports =  (sequelize, Sequelize) => {
       primaryKey: true,
       autoIncrement: false,
       comment: null,
-      field: "SizeId"
+      field: 'SizeId',
     },
     SizeName: {
       type: Sequelize.STRING(45),
@@ -16,18 +16,18 @@ module.exports =  (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "SizeName"
-    }
+      field: 'SizeName',
+    },
   };
-  let options = {
-    tableName: "size",
-    comment: "",
+  const options = {
+    tableName: 'size',
+    comment: '',
     indexes: [],
     freezeTableName: true,
-    timestamps: false
+    timestamps: false,
   };
-  let sizeModel = sequelize.define("size", attributes, options);
-  sizeModel.associate = function(models) {
+  const sizeModel = sequelize.define('size', attributes, options);
+  sizeModel.associate = (models) => {
     sizeModel.hasMany(models.ProductDetails, { foreignKey: 'SizeId', as: 'ProductDetails' });
   };
   return sizeModel;

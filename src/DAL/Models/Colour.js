@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  let attributes = {
+  const attributes = {
     ColourId: {
       type: Sequelize.INTEGER,
       allowNull: false,
@@ -7,7 +7,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: true,
       autoIncrement: false,
       comment: null,
-      field: "ColourId"
+      field: 'ColourId',
     },
     CorlourName: {
       type: Sequelize.STRING(45),
@@ -16,16 +16,16 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "CorlourName"
-    }
+      field: 'CorlourName',
+    },
   };
-  let options = {
-    tableName: "colour",
-    comment: "",
+  const options = {
+    tableName: 'colour',
+    comment: '',
     indexes: [],
     freezeTableName: true,
-    timestamps: false
+    timestamps: false,
   };
-  let ColourModel = sequelize.define("colour", attributes, options);
+  const ColourModel = sequelize.define('colour', attributes, options);
   return ColourModel;
 };

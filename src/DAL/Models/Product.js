@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  let attributes = {
+  const attributes = {
     ProductId: {
       type: Sequelize.INTEGER,
       allowNull: false,
@@ -7,7 +7,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: true,
       autoIncrement: false,
       comment: null,
-      field: "ProductId"
+      field: 'ProductId',
     },
     ProductName: {
       type: Sequelize.STRING(45),
@@ -16,7 +16,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "ProductName"
+      field: 'ProductName',
     },
     Price: {
       type: Sequelize.INTEGER,
@@ -25,7 +25,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "Price"
+      field: 'Price',
     },
     Image: {
       type: Sequelize.STRING(100),
@@ -34,7 +34,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "Image"
+      field: 'Image',
     },
     Description: {
       type: Sequelize.STRING(1000),
@@ -43,7 +43,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "Description"
+      field: 'Description',
     },
     Number: {
       type: Sequelize.INTEGER,
@@ -52,7 +52,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "Number"
+      field: 'Number',
     },
     BrandId: {
       type: Sequelize.INTEGER,
@@ -61,11 +61,11 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "BrandId",
+      field: 'BrandId',
       references: {
-        key: "BrandId",
-        model: "brand"
-      }
+        key: 'BrandId',
+        model: 'brand',
+      },
     },
     CategoryId: {
       type: Sequelize.INTEGER,
@@ -74,33 +74,33 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "CategoryId",
+      field: 'CategoryId',
       references: {
-        key: "CategoryId",
-        model: "category"
-      }
-    }
+        key: 'CategoryId',
+        model: 'category',
+      },
+    },
   };
-  let options = {
-    tableName: "product",
-    comment: "",
+  const options = {
+    tableName: 'product',
+    comment: '',
     freezeTableName: true,
     timestamps: false,
     indexes: [{
-      name: "FK_Product_Brand_BrandId_idx",
+      name: 'FK_Product_Brand_BrandId_idx',
       unique: false,
-      type: "BTREE",
-      fields: ["BrandId"]
+      type: 'BTREE',
+      fields: ['BrandId'],
     },
     {
-      name: "FK_Product_Category_CategoryId_idx",
+      name: 'FK_Product_Category_CategoryId_idx',
       unique: false,
-      type: "BTREE",
-      fields: ["CategoryId"]
-    }]
+      type: 'BTREE',
+      fields: ['CategoryId'],
+    }],
   };
-  let productModel = sequelize.define("product", attributes, options);
-  productModel.associate = function(models) {
+  const productModel = sequelize.define('product', attributes, options);
+  productModel.associate = (models) => {
     productModel.belongsTo(models.Categories, { foreignKey: 'CategoryId', as: 'category' });
     productModel.belongsTo(models.Brands, { foreignKey: 'BrandId', as: 'brand' });
   };

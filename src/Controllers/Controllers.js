@@ -1,8 +1,8 @@
-let controllers = {
-	Order: require('./OrderController'),
-	Product: require('./ProductController'),
-	User: require('./UserController'),
-	Home: require('./HomeController')
-};
+const Order = require('./OrderController');
+const Product = require('./ProductController');
+const User = require('./UserController');
+const Home = require('./HomeController');
 
-module.exports = controllers;
+module.exports = {
+  Order, Product, User, Home,
+};

@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  let attributes = {
+  const attributes = {
     UserId: {
       type: Sequelize.INTEGER,
       allowNull: false,
@@ -7,8 +7,8 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: true,
       autoIncrement: true,
       comment: null,
-      field: "UserId",
-      unique: "UserId_UNIQUE"
+      field: 'UserId',
+      unique: 'UserId_UNIQUE',
     },
     FirstName: {
       type: Sequelize.STRING(45),
@@ -17,7 +17,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "FirstName"
+      field: 'FirstName',
     },
     Email: {
       type: Sequelize.STRING(100),
@@ -26,7 +26,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "Email"
+      field: 'Email',
     },
     Password: {
       type: Sequelize.STRING(100),
@@ -35,7 +35,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "Password"
+      field: 'Password',
     },
     PhoneNumber: {
       type: Sequelize.STRING(45),
@@ -44,7 +44,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "PhoneNumber"
+      field: 'PhoneNumber',
     },
     LastName: {
       type: Sequelize.STRING(45),
@@ -53,7 +53,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "LastName"
+      field: 'LastName',
     },
     Birthdate: {
       type: Sequelize.DATEONLY,
@@ -62,7 +62,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "Birthdate"
+      field: 'Birthdate',
     },
     IsFemale: {
       type: Sequelize.INTEGER,
@@ -71,7 +71,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "IsFemale"
+      field: 'IsFemale',
     },
     Address: {
       type: Sequelize.STRING(1000),
@@ -80,7 +80,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "Address"
+      field: 'Address',
     },
     FacebookId: {
       type: Sequelize.INTEGER,
@@ -89,16 +89,16 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "FacebookId"
-    }
+      field: 'FacebookId',
+    },
   };
-  let options = {
-    tableName: "user",
-    comment: "",
+  const options = {
+    tableName: 'user',
+    comment: '',
     indexes: [],
     freezeTableName: true,
-    timestamps: false
+    timestamps: false,
   };
-  let UserModel = sequelize.define("user", attributes, options);
+  const UserModel = sequelize.define('user', attributes, options);
   return UserModel;
 };

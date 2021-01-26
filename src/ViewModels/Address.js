@@ -1,5 +1,5 @@
-let addresses = [
-	
+const addresses = [
+
 ];
 
 module.exports = addresses;

@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  let attributes = {
+  const attributes = {
     OrderId: {
       type: Sequelize.INTEGER,
       allowNull: false,
@@ -7,7 +7,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: true,
       autoIncrement: false,
       comment: null,
-      field: "OrderId"
+      field: 'OrderId',
     },
     CreatedDate: {
       type: Sequelize.DATEONLY,
@@ -16,7 +16,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "CreatedDate"
+      field: 'CreatedDate',
     },
     UpdatedDate: {
       type: Sequelize.DATEONLY,
@@ -25,7 +25,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "UpdatedDate"
+      field: 'UpdatedDate',
     },
     UserId: {
       type: Sequelize.INTEGER,
@@ -34,7 +34,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "UserId"
+      field: 'UserId',
     },
     StatusId: {
       type: Sequelize.INTEGER,
@@ -43,7 +43,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "StatusId"
+      field: 'StatusId',
     },
     SubTotal: {
       type: Sequelize.INTEGER,
@@ -52,7 +52,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "SubTotal"
+      field: 'SubTotal',
     },
     Tax: {
       type: Sequelize.INTEGER,
@@ -61,7 +61,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "Tax"
+      field: 'Tax',
     },
     ShippingCost: {
       type: Sequelize.INTEGER,
@@ -70,16 +70,16 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "ShippingCost"
-    }
+      field: 'ShippingCost',
+    },
   };
-  let options = {
-    tableName: "order",
-    comment: "",
+  const options = {
+    tableName: 'order',
+    comment: '',
     indexes: [],
     freezeTableName: true,
-    timestamps: false
+    timestamps: false,
   };
-  let OrderModel = sequelize.define("order", attributes, options);
+  const OrderModel = sequelize.define('order', attributes, options);
   return OrderModel;
 };

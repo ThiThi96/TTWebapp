@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  let attributes = {
+  const attributes = {
     OrderDetailId: {
       type: Sequelize.INTEGER,
       allowNull: false,
@@ -7,7 +7,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: true,
       autoIncrement: false,
       comment: null,
-      field: "OrderDetailId"
+      field: 'OrderDetailId',
     },
     ProductDetailId: {
       type: Sequelize.INTEGER,
@@ -16,7 +16,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "ProductDetailId"
+      field: 'ProductDetailId',
     },
     Quantity: {
       type: Sequelize.INTEGER,
@@ -25,7 +25,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "Quantity"
+      field: 'Quantity',
     },
     Discount: {
       type: Sequelize.INTEGER,
@@ -34,7 +34,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "Discount"
+      field: 'Discount',
     },
     OrderId: {
       type: Sequelize.INTEGER,
@@ -43,16 +43,16 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "OrderId"
-    }
+      field: 'OrderId',
+    },
   };
-  let options = {
-    tableName: "orderdetail",
-    comment: "",
+  const options = {
+    tableName: 'orderdetail',
+    comment: '',
     indexes: [],
     freezeTableName: true,
-    timestamps: false
+    timestamps: false,
   };
-  let OrderdetailModel = sequelize.define("orderdetail", attributes, options);
+  const OrderdetailModel = sequelize.define('orderdetail', attributes, options);
   return OrderdetailModel;
 };

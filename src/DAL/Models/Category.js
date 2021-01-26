@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  let attributes = {
+  const attributes = {
     CategoryId: {
       type: Sequelize.INTEGER,
       allowNull: false,
@@ -7,7 +7,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: true,
       autoIncrement: false,
       comment: null,
-      field: "CategoryId"
+      field: 'CategoryId',
     },
     CategoryName: {
       type: Sequelize.STRING(45),
@@ -16,7 +16,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "CategoryName"
+      field: 'CategoryName',
     },
     ParentId: {
       type: Sequelize.INTEGER,
@@ -25,18 +25,18 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "ParentId"
-    }
+      field: 'ParentId',
+    },
   };
-  let options = {
-    tableName: "category",
-    comment: "",
+  const options = {
+    tableName: 'category',
+    comment: '',
     indexes: [],
     freezeTableName: true,
-    timestamps: false
+    timestamps: false,
   };
-  let categoryModel = sequelize.define("category", attributes, options);
-  categoryModel.associate = function(models) {
+  const categoryModel = sequelize.define('category', attributes, options);
+  categoryModel.associate = (models) => {
     categoryModel.hasMany(models.Products, { foreignKey: 'CategoryId', as: 'products' });
   };
   return categoryModel;

@@ -1,5 +1,9 @@
+const ProductBusiness = require('./ProductBusiness');
+const UserBusiness = require('./UserBusiness');
+const OrderBusiness = require('./OrderBusiness');
+
 module.exports = {
-	ProductBusiness: require('./ProductBusiness'),
-	UserBusiness: require('./UserBusiness'),
-	OrderBusiness: require('./OrderBusiness')
+  ProductBusiness,
+  UserBusiness,
+  OrderBusiness,
 };

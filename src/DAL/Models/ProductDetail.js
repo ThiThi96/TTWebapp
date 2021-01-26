@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  let attributes = {
+  const attributes = {
     ProductDetailId: {
       type: Sequelize.INTEGER,
       allowNull: false,
@@ -7,7 +7,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: true,
       autoIncrement: false,
       comment: null,
-      field: "ProductDetailId"
+      field: 'ProductDetailId',
     },
     ProductId: {
       type: Sequelize.INTEGER,
@@ -16,11 +16,11 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "ProductId",
+      field: 'ProductId',
       references: {
-        key: "ProductId",
-        model: "product_model"
-      }
+        key: 'ProductId',
+        model: 'product_model',
+      },
     },
     ColourId: {
       type: Sequelize.INTEGER,
@@ -29,11 +29,11 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "ColourId",
+      field: 'ColourId',
       references: {
-        key: "ColourId",
-        model: "colour_model"
-      }
+        key: 'ColourId',
+        model: 'colour_model',
+      },
     },
     SizeId: {
       type: Sequelize.INTEGER,
@@ -42,11 +42,11 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "SizeId",
+      field: 'SizeId',
       references: {
-        key: "SizeId",
-        model: "size_model"
-      }
+        key: 'SizeId',
+        model: 'size_model',
+      },
     },
     Number: {
       type: Sequelize.INTEGER,
@@ -55,34 +55,34 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "Number"
-    }
+      field: 'Number',
+    },
   };
-  let options = {
-    tableName: "productdetail",
-    comment: "",
+  const options = {
+    tableName: 'productdetail',
+    comment: '',
     freezeTableName: true,
     timestamps: false,
     indexes: [{
-      name: "FK_ProductDetail_Product_ProductId_idx",
+      name: 'FK_ProductDetail_Product_ProductId_idx',
       unique: false,
-      type: "BTREE",
-      fields: ["ProductId"]
+      type: 'BTREE',
+      fields: ['ProductId'],
     }, {
-      name: "FK_ProductDetail_Size_SizeId_idx",
+      name: 'FK_ProductDetail_Size_SizeId_idx',
       unique: false,
-      type: "BTREE",
-      fields: ["SizeId"]
+      type: 'BTREE',
+      fields: ['SizeId'],
     }, {
-      name: "FK_ProductDetail_Colour_ColourId_idx",
+      name: 'FK_ProductDetail_Colour_ColourId_idx',
       unique: false,
-      type: "BTREE",
-      fields: ["ColourId"]
-    }]
+      type: 'BTREE',
+      fields: ['ColourId'],
+    }],
   };
-  let producDetailModel = sequelize.define("productdetail", attributes, options);
-  producDetailModel.associate = function(models) {
-    producDetailModel.belongsTo(models.Sizes, { foreignKey: 'SizeId'});
+  const producDetailModel = sequelize.define('productdetail', attributes, options);
+  producDetailModel.associate = (models) => {
+    producDetailModel.belongsTo(models.Sizes, { foreignKey: 'SizeId' });
   };
   return producDetailModel;
 };

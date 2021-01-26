@@ -1,7 +1,13 @@
+const Product = require('./Product');
+const Brand = require('./Brand');
+const Category = require('./Category');
+const Order = require('./Order');
+const OrderDetail = require('./OrderDetail');
+
 module.exports = {
-	Product: require('./Product'),
-	Brand: require('./Brand'),
-	Category: require('./Category'),
-	Order: require('./Order'),
-	OrderDetail: require('./OrderDetail')
+  Product,
+  Brand,
+  Category,
+  Order,
+  OrderDetail,
 };

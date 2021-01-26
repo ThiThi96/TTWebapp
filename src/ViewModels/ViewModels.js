@@ -1,10 +1,15 @@
-let viewModels = {
-	Address: require('./Address'),
-	Brand: require('./Brand'),
-	Category: require('./Category'),
-	Colour: require('./Colour'),
-	Order: require('./Order'),
-	Product: require('./Product')
-};
+const Address = require('./Address');
+const Brand = require('./Brand');
+const Category = require('./Category');
+const Colour = require('./Colour');
+const Order = require('./Order');
+const Product = require('./Product');
 
-module.exports = viewModels;
+module.exports = {
+  Address,
+  Brand,
+  Category,
+  Colour,
+  Order,
+  Product,
+};

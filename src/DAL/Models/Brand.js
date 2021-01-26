@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  let attributes = {
+  const attributes = {
     BrandId: {
       type: Sequelize.INTEGER,
       allowNull: false,
@@ -7,7 +7,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: true,
       autoIncrement: false,
       comment: null,
-      field: "BrandId"
+      field: 'BrandId',
     },
     BrandName: {
       type: Sequelize.STRING(45),
@@ -16,18 +16,18 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "BrandName"
-    }
+      field: 'BrandName',
+    },
   };
-  let options = {
-    tableName: "brand",
-    comment: "",
+  const options = {
+    tableName: 'brand',
+    comment: '',
     indexes: [],
     freezeTableName: true,
-    timestamps: false
+    timestamps: false,
   };
-  let brandModel = sequelize.define("brand", attributes, options);
-  brandModel.associate = function(models) {
+  const brandModel = sequelize.define('brand', attributes, options);
+  brandModel.associate = (models) => {
     brandModel.hasMany(models.Products, { foreignKey: 'BrandId', as: 'products' });
   };
   return brandModel;
