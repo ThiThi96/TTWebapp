@@ -5,7 +5,7 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: false,
       defaultValue: null,
       primaryKey: true,
-      autoIncrement: false,
+      autoIncrement: true,
       comment: null,
       field: 'BrandId',
     },

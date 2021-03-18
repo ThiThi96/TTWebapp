@@ -3,6 +3,7 @@ const models = require('./Models');
 
 const productBusiness = {
   GetProductsByCategoryId(categoryId, offset, numberOfItems, orderBy, isDesc) {
+    if (!categoryId) { return null; }
     return new Promise((resolve, reject) => {
       db.Products
         .findAll({
@@ -42,6 +43,7 @@ const productBusiness = {
     });
   },
   GetNumberOfProductsByCategoryId(categoryId) {
+    if (!categoryId) return 0;
     return db.Products.count({
       where: {
         categoryId,
@@ -152,19 +154,21 @@ const productBusiness = {
       });
     return Promise.all([getProduct, getProductDetails])
       .then((data) => {
-        const product = {
-          id: data[0].ProductId,
-          name: data[0].ProductName,
-          price: data[0].Price,
-          description: data[0].Description,
-          brand: data[0].brand !== undefined ? data[0].brand.BrandName : '',
-          category: data[0].category !== undefined ? data[0].category.CategoryName : '',
-          image: data[0].Image,
-          categoryId: data[0].CategoryId,
-          details: data[1],
-        };
-        return product;
+        const product = data[0].get();
+        const details = data[1].map((x) => new models.ProductDetail(x.get()));
+        return new models.Product(product, details);
       });
+    // const product = {
+    //   id: data[0].ProductId,
+    //   name: data[0].ProductName,
+    //   price: data[0].Price,
+    //   description: data[0].Description,
+    //   brand: data[0].brand !== undefined ? data[0].brand.BrandName : '',
+    //   category: data[0].category !== undefined ? data[0].category.CategoryName : '',
+    //   image: data[0].Image,
+    //   categoryId: data[0].CategoryId,
+    //   details: data[1],
+    // };
   },
   GetProductsByIds(productIds) {
     return new Promise((resolve, reject) => {

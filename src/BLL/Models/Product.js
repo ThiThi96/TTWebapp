@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 class Product {
-  constructor(product) {
+  constructor(product, details) {
     this._id = product.ProductId;
     this._name = product.ProductName;
     this._price = product.Price;
@@ -9,7 +9,9 @@ class Product {
     this._categoryName = product.category !== undefined ? product.category.CategoryName : '';
     this._image = product.Image;
     this._categoryId = product.CategoryId;
-    // this._details = product.details;
+    if (details) {
+      this._details = details;
+    }
   }
 
   get id() { return this._id; }
@@ -44,8 +46,9 @@ class Product {
 
   set image(value) { this._image = value; }
 
-  // get details(){ return this._details }
-  // set details(value){ this._details = value }
+  get details() { return this._details; }
+
+  set details(value) { this._details = value; }
 }
 
 module.exports = Product;

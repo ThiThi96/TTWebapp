@@ -20,7 +20,7 @@ const userController = {
         }
       });
   },
-  AddUser(req, res) {
+  async AddUser(req, res) {
     const user = {
       Email: req.body.email,
       Password: req.body.password,
@@ -29,14 +29,21 @@ const userController = {
       Birthdate: req.body.birthdate ? req.body.birthdate : null,
       Address: req.body.address,
     };
-    const saltRounds = 10;
+    const userWithSameEmail = await userBusiness.GetUser(user.Email);
     const getCategories = productBusiness.GetCategories();
+    if (userWithSameEmail) {
+      return res.render('register', {
+        error: true,
+        categories: await getCategories,
+      });
+    }
+    const saltRounds = 10;
     const hashPassAndCreateUser = bcrypt.hash(req.body.password, saltRounds)
       .then((hash) => {
         user.Password = hash;
         return userBusiness.AddUser(user);
       });
-    Promise.all([getCategories, hashPassAndCreateUser])
+    return Promise.all([getCategories, hashPassAndCreateUser])
       .then((values) => {
         res.render('register', {
           categories: values[0],
@@ -81,22 +88,22 @@ const userController = {
     if (req.user && req.user.id === req.params.userId) {
       const getUserDetails = userBusiness.GetUserById(req.user.id);
       const getCategories = productBusiness.GetCategories();
-      Promise.all([getUserDetails, getCategories])
+      return Promise.all([getUserDetails, getCategories])
         .then((values) => {
-          const user = values[0];
-          user.id = user.UserId;
-          user.name = `${user.FirstName} ${user.LastName}`;
-          user.isNotFromFb = user.FacebookId == null;
+          const user = {
+            id: values[0].UserId,
+            name: `${values[0].FirstName} ${values[0].LastName}`,
+            isNotFromFb: values[0].FacebookId == null,
+          };
           res.render('customer', {
             user,
             categories: values[1],
           });
         });
-    } else {
-      res.render('404', {
-        user: req.user,
-      });
     }
+    return res.render('404', {
+      user: req.user,
+    });
   },
   LogInByFacebook(req, res) {
     // eslint-disable-next-line consistent-return
