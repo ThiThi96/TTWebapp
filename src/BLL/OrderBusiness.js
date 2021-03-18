@@ -31,6 +31,7 @@ function GetOrderStatusDescription(value) {
 
 const orderBusiness = {
   GetOrdersByUserId(userId, offset, numberOfItems, orderBy, isDesc) {
+    if (!userId) { return null; }
     return db.Orders
       .findAll({
         where: {
@@ -57,10 +58,10 @@ const orderBusiness = {
     const query = `SELECT O.OrderId, O.CreatedDate as Date, O.SubTotal, O.ShippingCost, O.Tax, O.UserId, O.StatusId,
 P.Image, P.ProductId, P.Price, P.ProductName,
 P.Price * OD.Quantity as DetailTotal, OD.Discount, OD.Quantity
- FROM shop.Order O
- INNER JOIN shop.OrderDetail OD ON O.OrderId = OD.OrderId
- INNER JOIN shop.ProductDetail PD ON OD.ProductDetailId = PD.ProductDetailId
- INNER JOIN shop.Product P ON PD.ProductId = P.ProductId
+ FROM \`Order\` O
+ INNER JOIN OrderDetail OD ON O.OrderId = OD.OrderId
+ INNER JOIN ProductDetail PD ON OD.ProductDetailId = PD.ProductDetailId
+ INNER JOIN Product P ON PD.ProductId = P.ProductId
  WHERE O.OrderId = ?`;
     return db.sequelize.query(query, {
       replacements: [orderId],

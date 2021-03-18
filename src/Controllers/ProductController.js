@@ -19,7 +19,7 @@ const productController = {
       promises.push(getProducts);
     }
 
-    Promise.all(promises).then((values) => {
+    return Promise.all(promises).then((values) => {
       const total = values[3];
       const numberOfPages = total % numberOfItems !== 0 ? parseInt(total / numberOfItems, 10) + 1 : parseInt(total / numberOfItems, 10);
       res.render('product.hbs', {
@@ -56,11 +56,11 @@ const productController = {
           counts[categoryId] = counts[categoryId] ? counts[categoryId] + 1 : 1;
         }
 
-        const mostViewedCategoryId = Object.keys(counts).find((x) => counts[x] === Math.max(Object.values(counts)));
+        const mostViewedCategoryId = parseInt(Object.keys(counts).find((x) => counts[x] === Math.max(...Object.values(counts))), 10);
         const getRecommendedProducts = productBusiness.GetProductsByCategoryId(mostViewedCategoryId, 0, 3);
         Array.prototype.push.apply(promises, [getViewedProducts, getRecommendedProducts]);
       }
-      Promise.all(promises).then((values) => {
+      return Promise.all(promises).then((values) => {
         if (cookie) {
           if (!cookie.some((x) => x.id === req.params.productId)) {
             cookie.push({
@@ -85,6 +85,7 @@ const productController = {
         });
       });
     }
+    return null;
   },
 };
 

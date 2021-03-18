@@ -8,7 +8,7 @@ const orderController = {
       const { userId } = req.params;
       const getCategories = productBusiness.GetCategories();
       const getUserOrders = orderBusiness.GetOrdersByUserId(userId);
-      Promise.all([getCategories, getUserOrders]).then((values) => {
+      return Promise.all([getCategories, getUserOrders]).then((values) => {
         res.render('customer-order', {
           categories: values[0],
           orders: values[1],
@@ -16,15 +16,14 @@ const orderController = {
           user: req.user,
         });
       });
-    } else {
-      productBusiness.GetCategories()
-        .then((categories) => {
-          res.render('404', {
-            categories,
-            user: req.user,
-          });
-        });
     }
+    return productBusiness.GetCategories()
+      .then((categories) => {
+        res.render('404', {
+          categories,
+          user: req.user,
+        });
+      });
   },
   GetOrderById(req, res) {
     const { orderId } = req.params;
@@ -39,7 +38,7 @@ const orderController = {
         });
       promises.push(getOrder);
     }
-    Promise.all(promises).then((values) => {
+    return Promise.all(promises).then((values) => {
       if (values[1]) {
         res.render('customer-order-detail',
           {
@@ -58,21 +57,21 @@ const orderController = {
       }
     });
   },
-  AddOrder(req, res) {
-    res.render('customer-order-detail');
-  },
-  AddProductToBasket() {
+  // AddOrder(req, res) {
+  //   res.render('customer-order-detail');
+  // },
+  // AddProductToBasket() {
 
-  },
+  // },
   GetBasketByUserId(req, res) {
     res.render('basket', {
       order: models.Order.orders[0],
       recommendedProducts: models.Product.slice(0, 3),
     });
   },
-  RemoveProductFromOrder(req, res) {
-    res.send('success');
-  },
+  // RemoveProductFromOrder(req, res) {
+  //   res.send('success');
+  // },
 };
 
 module.exports = orderController;
